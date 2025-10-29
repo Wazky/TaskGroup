@@ -1,0 +1,24 @@
+/* main.css */
+
+/* BASE */
+@import url("base/reset.css");
+@import url("base/variables.css");
+
+/* LAYOUTS */
+@import url("/layout/header.css");
+@import url("/layout/sidebar.css");
+@import url("/layout/footer.css");
+@import url("/layout/grid.css");
+
+/* COMPONENTS */
+@import url("/components/button.css");
+@import url("/components/modal.css");
+@import url("/components/card.css");
+@import url("/components/form.css");
+@import url("/components/table.css");
+
+/* PAGES */
+@import url("/pages/auth.css");
+@import url("/pages/projects.css");
+@import url("/pages/tasks.css");
+
