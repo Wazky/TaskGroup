@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,11 +13,8 @@
 
     <div class="auth-container">
         <div class="auth-header">
-            <div class="logo">
-                <div class="logo-icon">
-                </div>
-                <h1>TaskGroup</h1>
-            </div>
+            <!-- Include Logo Component -->
+            <?php include_once __DIR__ . '/../shared/components/logo.html'; ?>
             
             <p>Collaborative task manager</p>
         </div>
