@@ -1,0 +1,21 @@
+/* Importar Montserrat */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&display=swap');
+
+.logo-text {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900; /* Black weight */
+    font-size: 1.75rem;
+    letter-spacing: -0.5px;
+    text-transform: uppercase;
+}
+
+.logo-primary {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.logo-accent {
+    color: var(--secondary-color);
+}

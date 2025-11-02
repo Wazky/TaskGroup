@@ -1,1 +1,68 @@
 /* CSS Variables */
+
+:root {
+    /* PALETA DE COLORES */
+
+    /* Colores base */
+    --primary-color: #6C2DBE;
+    --secondary-color: #E42F5A;
+    --acent-color: #FF6B81;
+
+    /* Degradado */
+    --gradient-primary: linear-gradient(90deg, #E42F5A, 0%, #6C2DBE 100%);
+
+    --bg-light: #F5F5F5;
+    --bg-dark: #1A1A1A;
+    --bg-white: #FFFFFF;
+
+    /* Textos */
+    --text-primary: #222222;       
+    --text-secondary: #555555;   
+    --text-light: #FFFFFF;        
+    --text-muted: #888888;        
+    
+    /* ===== ESTADOS Y VARIANTES ===== */
+    /* Primario */
+    --primary-light: #8A57D0;      
+    --primary-dark: #5520A0;       
+    --primary-transparent: rgba(108, 45, 190, 0.1); 
+    
+    /* Secundario */
+    --secondary-light: #FF4D7A;    
+    --secondary-dark: #C2254A;     
+    
+    /* ===== COMPONENTES ===== */
+    /* Bordes */
+    --border-color: #E0E0E0;
+    --border-radius: 8px;
+    --border-radius-sm: 4px;
+    --border-radius-lg: 12px;
+    
+    /* Sombras */
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.15);
+    --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.2);
+    
+    /* Espaciado */
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 1.5rem;
+    --spacing-lg: 2rem;
+    --spacing-xl: 3rem;
+    
+    /* Transiciones */
+    --transition: all 0.3s ease;
+    --transition-fast: all 0.15s ease;
+    --transition-slow: all 0.5s ease;
+    
+    /* ===== ESTADOS DE UI ===== */
+    /* Estados de botones */
+    --success-color: #27AE60;
+    --warning-color: #F39C12;
+    --error-color: #E74C3C;
+    --info-color: #3498DB;
+    
+    /* Hover states */
+    --hover-overlay: rgba(0, 0, 0, 0.05);
+    --hover-dark: rgba(0, 0, 0, 0.1);
+}

@@ -1,3 +1,8 @@
+<?php
+if (!defined('BASE_URL')) {
+    require_once __DIR__ . '/../../../config/paths.php';
+}
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -5,24 +10,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TaskGroup - Login</title>
+    <!-- Importar iconno-->
+    <link rel="icon" type="image/x-icon" href="<?= IMAGES_PATH ?>/icons/favicon.ico">
     
-    <link rel="stylesheet" href="/public/css/auth.css">
-
+    <!-- Importar estilos -->
+    <link rel="stylesheet" href="<?= CSS_PATH ?>/main.css">
 </head>
 <body class="auth-page">
 
     <div class="auth-container">
+        
         <div class="auth-header">
-            <!-- Include Logo Component -->
-            <?php include_once __DIR__ . '/../shared/components/logo.html'; ?>
-            
-            <p>Collaborative task manager</p>
-        </div>
+            <div class="auth-logo">
+                <?php include __DIR__ . '/../shared/components/logo.php';?>
+            </div>
 
-        <form id="loginForm" class="auth-form">
+            <h1 class="auth-title">Login</h1>
+            <p class="auth-subtitle">Collaborative task manager</p>
+        </div>
+        <!-- Ajustar el action -->
+        <form id="loginForm" class="auth-form" action="<?= BASE_URL?>/app/View/auth/login.php" method="POST">
             <div class="form-group">
                 <label for="username">Username or Email:</label>
-                <input type="text" id="username" name="username" placeholder="Enter your alias or email" required>
+                <input type="text" id="username-email" name="username-email" placeholder="Enter your alias or email" required>
             </div>
 
             <div class="form-group">
@@ -31,14 +41,14 @@
             </div>
             
             <div class="form-actions">
-                <button type="submit" class="btn-primary">Login</button>
+                <button type="submit" class="btn btn-primary">Login</button>
             </div>
         </form>
         
         <div class="auth-footer">
             <p>
                 Don't have an account?
-                <a href="/views/auth/register.html">Register here</a>
+                <a href="<?= BASE_URL ?>/app/View/auth/register.php">Register here</a>
             </p>
         </div>
 
