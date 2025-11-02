@@ -13,8 +13,8 @@ if (!defined('IMAGES_PATH')) {
         style="max-width: 100%; height: auto;"
     >
     <span class="logo-text">
-        <span class="logo-primary">TASK</span>
-        <span class="logo-accent">GROUP</span>
+        <span class="text-tg-primary">TASK</span>
+        <span class="text-tg-secondary">GROUP</span>
     </span>
 </div>
 

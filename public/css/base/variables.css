@@ -4,10 +4,16 @@
     /* PALETA DE COLORES */
 
     /* Colores base */
-    --primary-color: #6C2DBE;
-    --secondary-color: #E42F5A;
-    --acent-color: #FF6B81;
-
+    --tg-primary: #6C2DBE;
+    --tg-primary-10: rgba(108, 45, 190, 0.1);
+    --tg-secondary: #E42F5A;
+    --tg-accent: #FF6B81;
+    --tg-gradient: linear-gradient(90deg, #E42F5A 0%, #6C2DBE 100%);
+    --tg-bg-light: #F5F5F5;
+    --tg-bg-dark: #1A1A1A;
+    --tg-bg-grey: #2D2D2D;
+    --tg-text-primary: #222222;
+    --tg-text-secondary: #555555;
     /* Degradado */
     --gradient-primary: linear-gradient(90deg, #E42F5A, 0%, #6C2DBE 100%);
 
@@ -65,4 +71,162 @@
     /* Hover states */
     --hover-overlay: rgba(0, 0, 0, 0.05);
     --hover-dark: rgba(0, 0, 0, 0.1);
+}
+
+/* ===== COLORES PRIMARIOS ===== */
+
+/* Backgrounds */
+.bg-tg-primary { background-color: var(--tg-primary) !important; }
+.bg-tg-primary-10 {background-color: var(--tg-primary-10) !important;}
+.bg-tg-secondary { background-color: var(--tg-secondary) !important; }
+.bg-tg-dark { background-color: var(--tg-bg-dark) !important; }
+.bg-tg-grey { background-color: var(--tg-bg-grey) !important; }
+.bg-tg-gradient { background: var(--tg-gradient) !important; }
+
+/* Text colors */
+.text-tg-primary { color: var(--tg-primary) !important; }
+.text-tg-secondary { color: var(--tg-secondary) !important; }
+.text-tg-accent { color: var(--tg-accent) !important; }
+
+/* Border colors */
+.border-tg-primary { border-color: var(--tg-primary) !important; }
+.border-tg-secondary { border-color: var(--tg-secondary) !important; }
+
+/* ===== OVERRIDE BOOTSTRAP COMPONENTS ===== */
+
+/* Buttons */
+.btn-primary {
+    background: var(--tg-primary) !important;
+    border: none !important;
+    color: white !important;
+    transition: all 0.3s ease !important;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(108, 45, 190, 0.4) !important;
+}
+
+.btn-outline-primary {
+    color: var(--tg-primary) !important;
+    border-color: var(--tg-primary) !important;
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--tg-primary) !important;
+    color: white !important;
+}
+
+/* Nav Pills */
+.nav-pills .nav-link.active {
+    background: var(--tg-primary) !important;
+    color: white !important;
+    border: none !important;
+}
+
+.nav-pills .nav-link {
+    color: var(--tg-text-secondary) !important;
+    transition: all 0.3s ease !important;
+}
+
+.nav-pills .nav-link:hover {
+    color: var(--tg-primary) !important;
+    background-color: rgba(108, 45, 190, 0.1) !important;
+}
+
+/* Cards */
+.card {
+    border: none !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08) !important;
+    transition: all 0.3s ease !important;
+}
+
+.card:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12) !important;
+    transform: translateY(-2px);
+}
+
+/* Sidebar */
+.sidebar .nav-link {
+    color: var(--tg-text-secondary) !important;
+    border-radius: 0.5rem !important;
+    margin: 0.125rem 0.5rem !important;
+    transition: all 0.3s ease !important;
+}
+
+.sidebar .nav-link:hover {
+    color: var(--tg-primary) !important;
+    background-color: rgba(108, 45, 190, 0.1) !important;
+}
+
+.sidebar .nav-link.active {
+    background: var(--tg-primary) !important;
+    color: white !important;
+}
+
+/* Dropdown */
+.dropdown-menu {
+    border: none !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
+    border-radius: 0.75rem !important;
+}
+
+.dropdown-item:hover {
+    background-color: rgba(108, 45, 190, 0.1) !important;
+    color: var(--tg-primary) !important;
+}
+
+/* Badges */
+.badge.bg-primary {
+    background: var(--tg-gradient) !important;
+}
+
+/* ===== CUSTOM UTILITIES ===== */
+
+/* Gradient text */
+.text-gradient {
+    background: var(--tg-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Custom shadows */
+.shadow-tg {
+    box-shadow: 0 4px 20px rgba(108, 45, 190, 0.15) !important;
+}
+
+/* Hover effects */
+.hover-lift:hover {
+    transform: translateY(-2px);
+    transition: all 0.3s ease;
+}
+
+/* ===== SPECIFIC COMPONENT STYLES ===== */
+
+/* User avatar in header */
+.user-avatar-custom {
+    width: 36px;
+    height: 36px;
+    background: var(--tg-gradient) !important;
+    border: none !important;
+}
+
+/* Stats cards */
+.stat-card-primary {
+    background: var(--tg-gradient) !important;
+    color: white !important;
+    border: none !important;
+}
+
+.stat-card-secondary {
+    background-color: var(--tg-secondary) !important;
+    color: white !important;
+    border: none !important;
+}
+
+/* Footer */
+.main-footer {
+    background-color: var(--tg-bg-dark) !important;
+    color: white !important;
 }

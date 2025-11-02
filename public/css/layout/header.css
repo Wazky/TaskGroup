@@ -1,37 +1,11 @@
-/* Header */
 .main-header {
-    background: var(--bg-white);
-    box-shadow: var(--shadow-sm);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+    height: 60px;
+    z-index: 1030; /* Bootstrap sticky-top usa 1020-1030 */
 }
 
-.header-content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: var(--spacing-md);
+/* Solo mantener estilos personalizados específicos */
+.logo-text {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900;
 }
 
-.main-nav ul {
-    display: flex;
-    list-style:  none;
-    gap: var(--spacing-lg);
-    align-items: center;
-}
-
-.nav-link {
-    text-decoration: none;
-    color: var(--text-secondary);
-    font-weight: 500;
-    padding: var(--spacing-xs) var(--spacing-sm);
-    border-radius: var(--boder-radius);
-    transition: var(--transition);
-}
-
-.nav-link:hover,
-.nav-link.active {
-    color: var(--primary-color);
-    background-color: var(--primary-transparent);
-}

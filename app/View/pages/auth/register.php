@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../../../config/paths.php';
+require_once __DIR__ . '/../../../../config/paths.php';
 ?>
 
 <!DOCTYPE html>
@@ -20,7 +20,7 @@ require_once __DIR__ . '/../../../config/paths.php';
     <div class="auth-container">
         <div class="auth-header">
             <div class="auth-logo">
-                <?php include __DIR__ . '/../shared/components/logo.php'; ?>
+                <?php include __DIR__ . '/../../shared/components/logo.php'; ?>
             </div>
             <h1 class="auth-title">Create Account</h1>
             <p class="auth-subtitle">Join TaskGroup and start collaborating</p>
@@ -62,7 +62,7 @@ require_once __DIR__ . '/../../../config/paths.php';
         <div class="auth-footer">
             <p>
                 Already have an account?
-                <a href="<?= BASE_URL ?>/app/View/auth/login.php">Sign in here</a>
+                <a href="<?= BASE_URL ?>/app/View/pages/auth/login.php">Sign in here</a>
             </p>
         </div>
 

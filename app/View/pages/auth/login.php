@@ -1,6 +1,6 @@
 <?php
 if (!defined('BASE_URL')) {
-    require_once __DIR__ . '/../../../config/paths.php';
+    require_once __DIR__ . '/../../../../config/paths.php';
 }
 ?>
 
@@ -22,7 +22,7 @@ if (!defined('BASE_URL')) {
         
         <div class="auth-header">
             <div class="auth-logo">
-                <?php include __DIR__ . '/../shared/components/logo.php';?>
+                <?php include __DIR__ . '/../../shared/components/logo.php';?>
             </div>
 
             <h1 class="auth-title">Login</h1>
@@ -48,7 +48,7 @@ if (!defined('BASE_URL')) {
         <div class="auth-footer">
             <p>
                 Don't have an account?
-                <a href="<?= BASE_URL ?>/app/View/auth/register.php">Register here</a>
+                <a href="<?= BASE_URL ?>/app/View/pages/auth/register.php">Register here</a>
             </p>
         </div>
 
