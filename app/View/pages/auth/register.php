@@ -1,5 +1,13 @@
 <?php
-require_once __DIR__ . '/../../../../config/paths.php';
+// file: /app/View/
+
+if (!defined('BASE_URL')) {
+    require_once __DIR__ . '/../../../../config/paths.php';
+}
+
+$view = ViewManager::getInstance();
+$currentUser = $view->getVariable("currentUsername");
+
 ?>
 
 <!DOCTYPE html>

@@ -1,0 +1,216 @@
+<?php
+// file: /app/Model/Entity/User.php
+
+if (!defined(BASE_URL)) {
+    require_once(__DIR__ . '/../../../config/paths.php');
+}
+
+require_once(BASE_URL.'/app/core/ValidationException.php');
+
+/**
+ * User entity class
+ * 
+ * Represents a user in the system
+ */
+class User {
+
+    // VALIDATION CONSTANTS
+
+    // Username constraints
+    const MIN_USERNAME_LENGTH = 3;
+    const MAX_USERNAME_LENGTH = 40;
+    const USERNAME_PATTERN = "/^[a-zA-Z0-9_]+$/";
+
+    // Email constraints
+    const MAX_EMAIL_LENGTH = 100;
+
+    // Password constraints
+    const MIN_PASSWORD_LENGTH = 6;
+    const MAX_PASSWORD_LENGTH = 255;
+
+    // ERROR MESSAGES CONSTANTS
+    const ERROR_REQUIRED = "is required.";
+    const ERROR_TOO_SHORT = "must be at least %d characters long.";
+    const ERROR_TOO_LONG = "cannot exceed %d characters.";
+    const ERROR_INVALID_FORMAT = "has an invalid format.";  
+
+    // ATTRIBUTES
+
+    /**
+     * The username of the user
+     * 
+     * @var string
+     */
+    private $username;
+
+    /**
+     * The email of the user
+     * 
+     * @var string
+     */
+    private $email;
+
+    /**
+     * The password of the user
+     * 
+     * @var string
+     */
+    private $password;
+
+    /**
+     * Constructor
+     * 
+     * @param string $username The username of the user
+     * @param string $email The email of the user
+     * @param string $password The password of the user
+     */
+    public function __construct($username =  null, $email = null, $password = null) {
+        $this->username = $username;
+        $this->email = $email;
+        $this->password = $password;
+    }
+
+    public function getUsername() {
+        return $this->username;
+    }
+
+    public function setUsername($username) {
+        $this->username = $username;
+    }
+
+    public function getEmail() {
+        return $this->email;
+    }
+
+    public function setEmail($email) {
+        $this->email = $email;
+    }
+
+    public function getPassword() {
+        return $this->password;
+    }
+
+    public function setPassword($password) {
+        $this->password = $password;
+    }
+
+    /**
+     * Validates the user data
+     * 
+     * @throws ValidationException If any validation errors occur
+     * @return void
+     */
+    public function checkDataValidity() {
+        $errors = array();
+
+        // Username validation
+        $errors["username"] = $this->usernameValidation();
+
+        // Email validation
+        $errors["email"] = $this->emailValidation();
+
+        // Password validation
+        $errors["password"] = $this->passwordValidation();
+
+        // Filter the errors array to keep only non-empty error messages and check if there are any errors
+        if (!empty(array_filter($errors))) {
+            // Throw a validation exception with the collected error messages
+            throw new ValidationException($errors, "User data validation failed.");
+        }
+    }
+
+    /**
+     * Validates the username of the user
+     * 
+     * @return string An error message if validation fails, empty string otherwise
+     */
+    private function usernameValidation() {
+        $baseError = "Username ";
+
+        // Required check
+        if (empty($this->username)) {
+            return $baseError . self::ERROR_REQUIRED;
+        }
+
+        // Min length check
+        if (strlen($this->username) < self::MIN_USERNAME_LENGTH) {
+            return $baseError . sprintf(self::ERROR_TOO_SHORT, self::MIN_USERNAME_LENGTH);
+        }
+
+        // Max length check
+        if (strlen($this->username) > self::MAX_USERNAME_LENGTH) {
+            return $baseError . sprintf(self::ERROR_TOO_LONG, self::MAX_USERNAME_LENGTH);
+        }
+
+        // Format check
+        if (!preg_match(self::USERNAME_PATTERN, $this->username)) {
+            return $baseError . self::ERROR_INVALID_FORMAT . " Can only contain letters, numbers, and underscores (no spaces).";            
+        }
+
+        // Additional username checks can be added here
+
+        // If all checks pass, return empty string
+        return "";
+    }
+
+    /**
+     * Validates the email of the user
+     * 
+     * @return string An error message if validation fails, empty string otherwise
+     */
+    private function emailValidation() {
+        $baseError = "Email ";
+
+        // Required check
+        if (empty($this->email)) {
+            return $baseError . self::ERROR_REQUIRED;
+        }
+
+        // Max length check
+        if (strlen($this->email) > self::MAX_EMAIL_LENGTH) {
+            return $baseError . sprintf(self::ERROR_TOO_LONG, self::MAX_EMAIL_LENGTH);
+        }
+
+        // Format check
+        if (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
+            return $baseError . self::ERROR_INVALID_FORMAT;
+        }
+
+        // Additional email checks can be added here
+
+        // If all checks pass, return empty string
+        return "";
+    }
+
+    /**
+     * Validates the password of the user
+     * 
+     * @return string An error message if validation fails, empty string otherwise
+     */
+    private function passwordValidation() {
+        $baseError = "Password ";
+
+        // Required check
+        if (empty($this->pasword)) {
+            return $baseError . self::ERROR_REQUIRED;
+        }
+
+        // Min length check
+        if (strlen($this->password) < self::MIN_PASSWORD_LENGTH) {
+            return $baseError . sprintf(self::ERROR_TOO_SHORT, self::MIN_PASSWORD_LENGTH);
+        }
+
+        // Max length check
+        if (strlen($this->password) > self::MAX_PASSWORD_LENGTH) {
+            return $baseError . sprintf(self::ERROR_TOO_LONG, self::MAX_PASSWORD_LENGTH);
+        }
+
+        // Additional password strength checks can be added here
+
+        // If all checks pass, return empty string
+        return "";
+    }
+
+}
+
+?>  
