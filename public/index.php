@@ -67,15 +67,7 @@ function loadController($controllerName) {
 
     $controllerClassName = getControllerClassName($controllerName);
 
-    if(!defined('BASE_URL')) {
-        require_once(__DIR__.'/../config/paths.php');
-    }
-
-    echo "BASE URL: ". BASE_URL."<br>";
-    echo "Loading controller: ". $controllerClassName . "<br>";
-    echo "From file: ". BASE_URL.'/app/Controller/'.$controllerClassName.'.php' . "<br>";
-
-    require_once(BASE_URL.'/app/Controller/'.$controllerClassName.'.php');
+    require_once(__DIR__.'/../app/Controller/'.$controllerClassName.'.php');
     return new $controllerClassName();
 }
 

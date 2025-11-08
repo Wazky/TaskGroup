@@ -2,7 +2,7 @@
 //file: /app/Model/Mapper/UserMapper.php
 
 // Include the PDOConnection (to get the database connection)
-require_once(__DIR__ . '/app/core/PDOConnection.php'); 
+require_once(__DIR__ . '/../../core/PDOConnection.php'); 
 
 /**
  * Class UserMapper

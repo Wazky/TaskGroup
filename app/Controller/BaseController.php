@@ -1,14 +1,10 @@
 <?php
 // file: /app/Controller/BaseController.php
 
-if (!defined('BASE_URL')) {
-    require_once __DIR__ . '/../../config/paths.php';
-}
+require_once(__DIR__.'/../core/ViewManager.php');
+require_once(__DIR__.'/../core/I18n.php');
 
-require_once(BASE_URL.'/core/ViewManager.php');
-require_once(BASE_URL.'/core/I18n.php');
-
-require_once(BASE_URL.'/app/Model/Entity/User.php');
+require_once(__DIR__.'/../Model/Entity/User.php');
 
 /**
  * BaseController class

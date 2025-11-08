@@ -1,18 +1,13 @@
 <?php
 // file: /app/Controller/AuthController.php
 
-if (!defined('BASE_URL')) {
-    require_once(__DIR__ . '/../../config/paths.php');
-}
+require_once(__DIR__.'/../core/ViewManager.php');
+require_once(__DIR__.'/../core/I18n.php');
 
+require_once(__DIR__.'/../Model/Entity/User.php');
+require_once(__DIR__.'/../Model/Mapper/UserMapper.php');
 
-require_once(BASE_URL.'/core/ViewManager.php');
-require_once(BASE_URL.'/core/I18n.php');
-
-require_once(BASE_URL.'/app/Model/Entity/User.php');
-require_once(BASE_URL.'/app/Model/Mapper/UserMapper.php');
-
-require_once(BASE_URL.'/app/Controller/BaseController.php');
+require_once(__DIR__.'/BaseController.php');
 
 class AuthController extends BaseController {
 
@@ -67,7 +62,26 @@ class AuthController extends BaseController {
         }
 
         // Render the login view (also for GET requests)
-        $this->view->setVariable("auth", "login");  // View/pages/auth/login.php
+
+        
+        $this->view->moveToFragment("logo");
+        include(__DIR__."/../View/shared/components/logo.php");
+        $this->view->moveToDefaultFragment();
+
+        $this->view->setVariable("page-title", i18n("Login"));
+        $this->view->setVariable("auth-title", i18n("Login"));
+        $this->view->setVariable("auth-subtitle", i18n("Collaborative task manager"));
+
+        $this->view->setVariable("auth-footer-text", i18n("Don't have an account?"));
+        $this->view->setVariable("footer-controller", "auth");
+        $this->view->setVariable("footer-action", "register");
+        $this->view->setVariable("auth-footer-link-text", i18n("Sign up here"));
+
+        $this->view->moveToFragment("footer");
+        include(__DIR__."/../View/shared/components/footer.php");
+        $this->view->moveToDefaultFragment();
+
+        $this->view->render("auth", "login");  // View/pages/auth/login.php
     }
 
     

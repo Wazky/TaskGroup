@@ -36,8 +36,8 @@ $currentUser = $view->getVariable("currentUsername");
                 <?= $view->getFragment("logo") ?>
             </div>
             <!-- Title and Subtitle -->
-            <h1 class="auth-title"><?= i18n($view->getVariable("title")) ?></h1>
-            <p class="auth-subtitle"><?= i18n($view->getVariable("subtitle")) ?></p>
+            <h1 class="auth-title"><?= $view->getVariable("auth-title") ?></h1>
+            <p class="auth-subtitle"><?= i18n($view->getVariable("auth-subtitle")) ?></p>
         </div>
 
         <!-- Main Content -->

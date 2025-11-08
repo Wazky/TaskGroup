@@ -1,9 +1,5 @@
 <?php
 
-if (!defined('BASE_URL')) {
-    require_once __DIR__ . '/../../config/paths.php';
-}
-
 class ViewManager {
 
     /**
@@ -208,7 +204,7 @@ class ViewManager {
      * @return void
      */
     public function render($controllerName, $viewName) {
-        include(BASE_URL."/app/View/".$controllerName."/".$viewName.".php");
+        include(__DIR__."/../View/pages/".$controllerName."/".$viewName.".php");
         $this->renderLayout();
     }
 
@@ -221,7 +217,7 @@ class ViewManager {
      * @return void
      */
     public function redirect($controllerName, $action, $queryString = null) {
-        header("Location: ".BASE_URL."/public/index.php?controller=".$controllerName."&action=".$action.(isset($queryString) ? "&".$queryString : ""));
+        header("Location: ".__DIR__."/../../public/index.php?controller=".$controllerName."&action=".$action.(isset($queryString) ? "&".$queryString : ""));
         die();
     }
 
@@ -250,7 +246,7 @@ class ViewManager {
         $this->moveToFragment("layout");
 
         // draw the layout (inside it, the fragments will be used)        
-        include(BASE_URL."/app/View/layouts/".$this->layout.".php");
+        include(__DIR__."/../View/layouts/".$this->layout.".php");
 
         ob_flush();
     }

@@ -1,11 +1,7 @@
 <?php
 // file: /app/Model/Entity/User.php
 
-if (!defined(BASE_URL)) {
-    require_once(__DIR__ . '/../../../config/paths.php');
-}
-
-require_once(BASE_URL.'/app/core/ValidationException.php');
+require_once(__DIR__.'/../../core/ValidationException.php');
 
 /**
  * User entity class
