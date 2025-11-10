@@ -147,7 +147,7 @@ class ViewManager {
             if (!isset($_SESSION["flash_variables"])) {
                 $_SESSION["flash_variables"][$varName] = $varValue;
                 print_r($_SESSION["flash_variables"]);
-            
+
             } else {
                 $_SESSION["flash_variables"][$varName] = $varValue;
             }
@@ -162,7 +162,7 @@ class ViewManager {
      * @return void
      */
     public function setFlash($flashMessage) {
-        $this->setVariable("flash_message", $flashMessage, true);
+        $this->setVariable("flash-message", $flashMessage, true);
     }
 
     /**
@@ -172,7 +172,7 @@ class ViewManager {
      * @return string The flash message
      */
     public function popFlash() {
-        return $this->getVariable("flash_message", "");
+        return $this->getVariable("flash-message", "");
     }
 
     // RENDERING METHODS
@@ -217,7 +217,7 @@ class ViewManager {
      * @return void
      */
     public function redirect($controllerName, $action, $queryString = null) {
-        header("Location: ".__DIR__."/../../index.php?controller=".$controllerName."&action=".$action.(isset($queryString) ? "&".$queryString : ""));
+        header("Location: /TaskGroup/index.php?controller=".$controllerName."&action=".$action.(isset($queryString) ? "&".$queryString : ""));
         die();
     }
 

@@ -14,6 +14,11 @@ require_once(__DIR__.'/../Model/Entity/User.php');
  */
 class BaseController {
 
+    // AUTHENTICATION CONSTANTS
+
+    private const AUTH_CONTROLLER_NAME = "auth";
+    private const AUTH_LOGIN_ACTION = "login";
+
     /**
      * The ViewManager instance
      * @var ViewManager
@@ -38,11 +43,22 @@ class BaseController {
             session_start();
         }
 
-        if (isset($_SESSION["current-user"])) {
+        if (isset($_SESSION["current_user"])) {
 
-            $this->currentUser = $_SESSION["current-user"];
+            $this->currentUser = $_SESSION["current_user"];
             // Pass current username to view
-            $this->view->setVariable("current-user", $this->currentUser->getUsername());
+            $this->view->setVariable("current_user", $this->currentUser);
+        }
+    }
+
+    protected function isUserLoggedIn() {
+        return isset($_SESSION["current_user"]);
+    }
+
+    protected function requireAuthentication() {
+        if (!$this->isUserLoggedIn()) {
+            $this->view->redirect(self::AUTH_CONTROLLER_NAME, self::AUTH_LOGIN_ACTION);
+            exit;
         }
     }
 

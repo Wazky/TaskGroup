@@ -19,7 +19,7 @@ $view = ViewManager::getInstance();
     <!-- Title -->
     <title><?= "TaskGroup - ".$view->getVariable("page-title", i18n("Authentication Page")) ?></title>
     
-    <!-- Importar iconno (Change to get fragment of it) -->
+    <!-- Importar icono (Change to get fragment of it) -->
     <link rel="icon" type="image/x-icon" href="<?= IMAGES_PATH ?>/icons/favicon.ico">
     
     <!-- Importar Bootstrap CSS -->

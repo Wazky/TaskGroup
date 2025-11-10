@@ -11,10 +11,15 @@ require_once(__DIR__.'/BaseController.php');
 
 class AuthController extends BaseController {
 
+    // AUTHENTICATION CONSTANTS
+
     private const AUTH_LAYOUT = "auth_base";            // Layout for authentication pages
     private const AUTH_CONTROLLER_NAME = "auth";        // Controller name for authentication
     private const AUTH_LOGIN_ACTION = "login";          // Login action name
     private const AUTH_REGISTER_ACTION = "register";    // Register action name
+    
+    // PROJECTS CONSTANTS
+
     private const PROJECTS_CONTROLLER_NAME = "projects"; // Controller name for projects
     private const PROJECTS_INDEX_ACTION = "index";      // Index action name for projects
 
@@ -56,7 +61,7 @@ class AuthController extends BaseController {
             if ($this->userMapper->isValidUser($_POST["auth-identifier"], $_POST["password"])) {
 
                 // Set the current user in the session
-                $_SESSION["current-user"] = $this->userMapper->getUser($_POST["auth-identifier"])->getUsername();
+                $_SESSION["current_user"] = $this->userMapper->getUser($_POST["auth-identifier"]);
 
                 // Send user to the dashboard (projects index)
                 $this->view->redirect(self::PROJECTS_CONTROLLER_NAME, self::PROJECTS_INDEX_ACTION);
@@ -96,7 +101,7 @@ class AuthController extends BaseController {
                     
                     $this->view->setFlash(i18n("User account successfully created."));
                     // Set the current user in the session
-                    $_SESSION["current-user"] = $user->getUsername();
+                    $_SESSION["current_user"] = $user;
 
                     // Registration successful, redirect to projects index
                     $this->view->redirect(self::PROJECTS_CONTROLLER_NAME, self::PROJECTS_INDEX_ACTION);
@@ -125,7 +130,7 @@ class AuthController extends BaseController {
             }
         }
 
-        $this->view->setVariable("currentUser", $user);
+        $this->view->setVariable("current_user", $user);
 
         // Render the register view: View/pages/auth/register.php (also for GET requests)
         $this->view->render(self::AUTH_CONTROLLER_NAME, self::AUTH_REGISTER_ACTION);

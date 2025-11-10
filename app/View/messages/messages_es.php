@@ -2,6 +2,12 @@
 //file: /app/View/messages/messages_es.php
 
 $i18n_messages = array(
+
+    // Languages
+
+    "Spanish" => "Español",
+    "English" => "Inglés",
+
     // Authentication related messages
 
     "Authentication Page" => "Página de autenticación",

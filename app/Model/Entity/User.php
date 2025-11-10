@@ -66,6 +66,8 @@ class User {
         $this->password = $password;
     }
 
+    // GETTERS AND SETTERS
+
     public function getUsername() {
         return $this->username;
     }
