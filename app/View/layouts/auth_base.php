@@ -6,7 +6,6 @@ if (!defined('BASE_URL')) {
 }
 
 $view = ViewManager::getInstance();
-$currentUser = $view->getVariable("currentUsername");
 
 ?>
 
@@ -18,13 +17,20 @@ $currentUser = $view->getVariable("currentUsername");
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- Title -->
-    <title><?= $view->getVariable("page-title", "TaskGroup -".i18n("Authentication Page")) ?></title>
+    <title><?= "TaskGroup - ".$view->getVariable("page-title", i18n("Authentication Page")) ?></title>
     
     <!-- Importar iconno (Change to get fragment of it) -->
     <link rel="icon" type="image/x-icon" href="<?= IMAGES_PATH ?>/icons/favicon.ico">
     
+    <!-- Importar Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
     <!-- Importar estilos (Change to get fragment of it) -->
     <link rel="stylesheet" href="<?= CSS_PATH ?>/main.css">
+
+    <!-- Importar scripts -->
+    <script src="<?= JS_PATH ?>/auth.js"></script>
 </head>
 <body class="auth-page">
 
@@ -49,9 +55,6 @@ $currentUser = $view->getVariable("currentUsername");
             <?= $view->getFragment("footer"); ?>
         </div>
 
-        <div id="errormessage" class="error-message" style="display: none;">
-            <!-- Error messages will be displayed here -->
-        </div>
     </div>
 
     <script src="<?= JS_PATH ?>/auth.js"></script>

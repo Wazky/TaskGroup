@@ -38,11 +38,11 @@ class BaseController {
             session_start();
         }
 
-        if (isset($_SESSION["currentuser"])) {
+        if (isset($_SESSION["current-user"])) {
 
-            $this->currentUser = $_SESSION["currentuser"];
+            $this->currentUser = $_SESSION["current-user"];
             // Pass current username to view
-            $this->view->setVariable("currentUsername", $this->currentUser->getUsername());
+            $this->view->setVariable("current-user", $this->currentUser->getUsername());
         }
     }
 

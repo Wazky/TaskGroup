@@ -217,7 +217,7 @@ class ViewManager {
      * @return void
      */
     public function redirect($controllerName, $action, $queryString = null) {
-        header("Location: ".__DIR__."/../../public/index.php?controller=".$controllerName."&action=".$action.(isset($queryString) ? "&".$queryString : ""));
+        header("Location: ".__DIR__."/../../index.php?controller=".$controllerName."&action=".$action.(isset($queryString) ? "&".$queryString : ""));
         die();
     }
 

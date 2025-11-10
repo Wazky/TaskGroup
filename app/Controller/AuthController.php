@@ -11,6 +11,13 @@ require_once(__DIR__.'/BaseController.php');
 
 class AuthController extends BaseController {
 
+    private const AUTH_LAYOUT = "auth_base";            // Layout for authentication pages
+    private const AUTH_CONTROLLER_NAME = "auth";        // Controller name for authentication
+    private const AUTH_LOGIN_ACTION = "login";          // Login action name
+    private const AUTH_REGISTER_ACTION = "register";    // Register action name
+    private const PROJECTS_CONTROLLER_NAME = "projects"; // Controller name for projects
+    private const PROJECTS_INDEX_ACTION = "index";      // Index action name for projects
+
     /**
      * Reference to the UserMapper to interact with the database
      * 
@@ -27,7 +34,7 @@ class AuthController extends BaseController {
         $this->userMapper = new UserMapper();
         
         // Set the layout for authentication pages
-        $this->view->setLayout("auth_base");
+        $this->view->setLayout(self::AUTH_LAYOUT);
     }
     
     /**
@@ -49,43 +56,81 @@ class AuthController extends BaseController {
             if ($this->userMapper->isValidUser($_POST["auth-identifier"], $_POST["password"])) {
 
                 // Set the current user in the session
-                $_SESSION["currentuser"] = $this->userMapper->getUser($_POST["auth-identifier"])->getUsername();
+                $_SESSION["current-user"] = $this->userMapper->getUser($_POST["auth-identifier"])->getUsername();
 
-                // Send user to the restricted area (dashboard)
-                $this->view->redirect("dashboard", "index");
+                // Send user to the dashboard (projects index)
+                $this->view->redirect(self::PROJECTS_CONTROLLER_NAME, self::PROJECTS_INDEX_ACTION);
 
             } else {
                 $errors = array();
-                $errors["general"] = i18n("User is not valid");
+                $errors["general"] = i18n("Error trying to login: invalid credentials");
                 $this->view->setVariable("errors", $errors);
             }
         }
 
-        // Render the login view (also for GET requests)
-
-        
-        $this->view->moveToFragment("logo");
-        include(__DIR__."/../View/shared/components/logo.php");
-        $this->view->moveToDefaultFragment();
-
-        $this->view->setVariable("page-title", i18n("Login"));
-        $this->view->setVariable("auth-title", i18n("Login"));
-        $this->view->setVariable("auth-subtitle", i18n("Collaborative task manager"));
-
-        $this->view->setVariable("auth-footer-text", i18n("Don't have an account?"));
-        $this->view->setVariable("footer-controller", "auth");
-        $this->view->setVariable("footer-action", "register");
-        $this->view->setVariable("auth-footer-link-text", i18n("Sign up here"));
-
-        $this->view->moveToFragment("footer");
-        include(__DIR__."/../View/shared/components/footer.php");
-        $this->view->moveToDefaultFragment();
-
-        $this->view->render("auth", "login");  // View/pages/auth/login.php
+        // Render the login view: View/pages/auth/login.php (also for GET requests) 
+        $this->view->render(self::AUTH_CONTROLLER_NAME, self::AUTH_LOGIN_ACTION);  
     }
 
-    
+    public function register() {
+        
+        $user = new User();
+        
+        // Handle POST request
+        if (isset($_POST["username"])) {
 
+            $user->setUsername($_POST["username"]);
+            $user->setEmail($_POST["email"]);
+            $user->setPassword($_POST["password"]);
+
+            try {
+                // Validate new user data
+                $user->checkDataValidity();
+
+                // Check if username or email exists in the database
+                if (!$this->userMapper->userIdentifierExists($user->getUsername()) && 
+                    !$this->userMapper->userIdentifierExists($user->getEmail())) {
+
+                    // Save the new user in the database
+                    $this->userMapper->save($user);
+                    
+                    $this->view->setFlash(i18n("User account successfully created."));
+                    // Set the current user in the session
+                    $_SESSION["current-user"] = $user->getUsername();
+
+                    // Registration successful, redirect to projects index
+                    $this->view->redirect(self::PROJECTS_CONTROLLER_NAME, self::PROJECTS_INDEX_ACTION);
+
+                } else {
+                // User data already exists in the database
+                    $errors = array();
+                    $errors["general"] = i18n("Error trying to register");
+
+                    if ($this->userMapper->userIdentifierExists($user->getUsername())) {
+                        $errors["username"] = i18n("Username already exists");
+                    }
+
+                    if ($this->userMapper->userIdentifierExists($user->getEmail())) {
+                        $errors["email"] = i18n("Email already exists");
+                    }
+
+                    $this->view->setVariable("errors", $errors);
+                }
+            } catch (ValidationException $ex) {
+                // Validation errors occurred
+                $errors = array();
+                $errors = $ex->getErrors();
+                $errors["general"] = i18n("Error trying to register");
+                $this->view->setVariable("errors", $errors);
+            }
+        }
+
+        $this->view->setVariable("currentUser", $user);
+
+        // Render the register view: View/pages/auth/register.php (also for GET requests)
+        $this->view->render(self::AUTH_CONTROLLER_NAME, self::AUTH_REGISTER_ACTION);
+    }
+    
 }
 
 ?>

@@ -43,7 +43,7 @@ class UserMapper {
      * @param string $userIdentifier The username or email to check
      * @return bool True if the username or email exists, false otherwise
      */
-    public function usernameExists($userIdentifier) {
+    public function userIdentifierExists($userIdentifier) {
         $stmt = $this->db->prepare("SELECT COUNT(*)FROM users WHERE username = ? OR email = ?");
         $stmt->execute(array($userIdentifier, $userIdentifier));
 

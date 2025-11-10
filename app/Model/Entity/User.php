@@ -121,26 +121,26 @@ class User {
      * @return string An error message if validation fails, empty string otherwise
      */
     private function usernameValidation() {
-        $baseError = "Username ";
+        $baseError = i18n("Username");
 
         // Required check
         if (empty($this->username)) {
-            return $baseError . self::ERROR_REQUIRED;
+            return $baseError . " " . i18n(self::ERROR_REQUIRED);
         }
 
         // Min length check
         if (strlen($this->username) < self::MIN_USERNAME_LENGTH) {
-            return $baseError . sprintf(self::ERROR_TOO_SHORT, self::MIN_USERNAME_LENGTH);
+            return $baseError . " " . sprintf(i18n(self::ERROR_TOO_SHORT), self::MIN_USERNAME_LENGTH);
         }
 
-        // Max length check
+        // Max length check 
         if (strlen($this->username) > self::MAX_USERNAME_LENGTH) {
-            return $baseError . sprintf(self::ERROR_TOO_LONG, self::MAX_USERNAME_LENGTH);
+            return $baseError . " " . sprintf(i18n(self::ERROR_TOO_LONG), self::MAX_USERNAME_LENGTH);
         }
 
         // Format check
         if (!preg_match(self::USERNAME_PATTERN, $this->username)) {
-            return $baseError . self::ERROR_INVALID_FORMAT . " Can only contain letters, numbers, and underscores (no spaces).";            
+            return $baseError . " " . i18n(self::ERROR_INVALID_FORMAT) . " " . i18n("Can only contain letters, numbers, and underscores (no spaces).");
         }
 
         // Additional username checks can be added here
@@ -187,7 +187,7 @@ class User {
         $baseError = "Password ";
 
         // Required check
-        if (empty($this->pasword)) {
+        if (empty($this->password)) {
             return $baseError . self::ERROR_REQUIRED;
         }
 
