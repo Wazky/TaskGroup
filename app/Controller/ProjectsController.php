@@ -36,7 +36,7 @@ class ProjectsController extends BaseController {
     public function __construct() {
         
         parent::__construct();
-        //$this->projectMapper = new ProjectMapper();
+        $this->projectMapper = new ProjectMapper();
 
         // Set the layout for projects pages
         $this->view->setLayout(self::PROJECTS_LAYOUT);
@@ -47,6 +47,9 @@ class ProjectsController extends BaseController {
         $this->requireAuthentication();
         
         // User is logged in - show projects
+        $this->projectMapper->findByOwner($this->currentUser->getUsername());
+        $this->projectMapper->findByMember($this->currentUser->getUsername());
+
         $this->view->render(self::PROJECTS_CONTROLLER_NAME, self::PROJECTS_INDEX_ACTION);
     }
 

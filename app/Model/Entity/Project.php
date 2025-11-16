@@ -61,7 +61,8 @@ class Project {
      */
     private $tasks;
 
-    public function __construct($name = null, $description = null, $ownerUsername = null, $createdAt = null) {
+    public function __construct($id = null,$name = null, $description = null, $ownerUsername = null, $createdAt = null) {
+        $this->id = $id;
         $this->name = $name;
         $this->description = $description;
         $this->ownerUsername = $ownerUsername;
@@ -74,6 +75,10 @@ class Project {
 
     public function getId() {
         return $this->id;
+    }
+
+    public function setId($id) {
+        $this->id = $id;
     }
 
     public function getName() {
@@ -104,6 +109,10 @@ class Project {
         return $this->createdAt;
     }
 
+    public function setCreatedAt($createdAt) {
+        $this->createdAt = $createdAt;
+    }
+
     // MEMBER MANAGEMENT METHODS
 
     public function getMembers() {
@@ -124,6 +133,11 @@ class Project {
         $key = array_search($username, $this->members);
 
         if ($key !== false) {
+            // Prevent removing the owner from members
+            if ($username === $this->ownerUsername) {
+                return false;
+            }
+
             unset($this->members[$key]);
             $this->members = array_values($this->members);
             return true;
