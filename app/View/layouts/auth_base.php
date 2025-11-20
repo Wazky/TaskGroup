@@ -1,12 +1,12 @@
 <?php
-// file: /app/View/
+// file: /app/View/layouts/auth_base.php
 
 if (!defined('BASE_URL')) {
     require_once __DIR__ . '/../../../config/paths.php';
 }
 
 $view = ViewManager::getInstance();
-
+$flashMessage = $view->getVariable("flash_message");
 ?>
 
 <!DOCTYPE html>
@@ -29,6 +29,8 @@ $view = ViewManager::getInstance();
     <!-- Importar estilos (Change to get fragment of it) -->
     <link rel="stylesheet" href="<?= CSS_PATH ?>/main.css">
 
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>    
     <!-- Importar scripts -->
     <script src="<?= JS_PATH ?>/auth.js"></script>
 </head>
@@ -46,6 +48,26 @@ $view = ViewManager::getInstance();
             <p class="auth-subtitle"><?= i18n($view->getVariable("auth-subtitle")) ?></p>
         </div>
 
+    <dialog class="">
+        <p>AAAAAA</p>
+    </dialog>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+    <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel"><?= is_null($flashMessage) ? "" : $flashMessage ?></h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <div class="modal-body">
+    ...
+    </div>
+</div>
+</div>
+</div>
+
         <!-- Main Content -->
         <main>
             <?= $view->getFragment(ViewManager::DEFAULT_FRAGMENT) ?>
@@ -58,5 +80,6 @@ $view = ViewManager::getInstance();
     </div>
 
     <script src="<?= JS_PATH ?>/auth.js"></script>
+    
 </body>
 </html>

@@ -48,6 +48,16 @@ $i18n_messages = array(
     "must be at least %d characters long." => "debe tener al menos %d caracteres.",
     "cannot exceed %d characters." => "no puede exceder los %d caracteres.",
     "has an invalid format." => "tiene un formato inválido.",
-    "Can only contain letters, numbers, and underscores (no spaces)." => "Solo puede contener letras, números y guiones bajos (sin espacios)."
+    "Can only contain letters, numbers, and underscores (no spaces)." => "Solo puede contener letras, números y guiones bajos (sin espacios).",
+
+    "Default Title" => "Título predeterminado",
+    "Dashboard" => "Panel de control",
+    "You must be logged in to access this page." => "Debes iniciar sesión para, acceder a esta página.",
+
+    "Projects" => "Proyectos",
+    "Your Projects" => "Tus Proyectos",
+    "Member of" => "Miembro de",
+    "Members" => "Miembros",
+    "Tasks" => "Tareas",
 );
 ?>

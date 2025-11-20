@@ -35,15 +35,6 @@ $currentUser = $view->getVariable("current-user");
 
 <!-- Fragments Setup -->
 <?php
-//Create javascript fragment
-$view->moveToFragment("javascript");
-include(__DIR__.'/../../../../public/js/auth.js');
-$view->moveToDefaultFragment();
-
-// Create logo fragment
-$view->moveToFragment("logo");
-include(__DIR__."/../../shared/components/logo.php");
-$view->moveToDefaultFragment();
 
 // Set view variables
 $view->setVariable("page-title", i18n("Login"));
@@ -54,8 +45,18 @@ $view->setVariable("footer-controller", 'auth');
 $view->setVariable("footer-action", 'register');
 $view->setVariable("auth-footer-link-text", i18n("Sign up here"));
 
+//Create javascript fragment
+$view->moveToFragment("javascript");
+include(__DIR__.'/../../../../public/js/auth.js');
+$view->moveToDefaultFragment();
+
+// Create logo fragment
+$view->moveToFragment("logo");
+include(__DIR__."/../../shared/components/auth_logo.php");
+$view->moveToDefaultFragment();
+
 // Create footer fragment
 $view->moveToFragment("footer");
-include(__DIR__."/../../shared/components/footer.php");
+include(__DIR__."/../../shared/components/auth_footer.php");
 $view->moveToDefaultFragment();
 ?>

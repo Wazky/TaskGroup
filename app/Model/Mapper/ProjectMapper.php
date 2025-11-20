@@ -38,6 +38,9 @@ class ProjectMapper {
 
     /**
      * Inserts a new Project entity into the database
+     * 
+     * @param Project $project The project entity to insert
+     * @return Project The inserted project entity with updated ID
      */
     private function insert($project) {
         $stmt = $this->db->prepare("INSERT INTO projects (project_name, project_description, project_owner) values (?, ?, ?)");
@@ -97,7 +100,7 @@ class ProjectMapper {
 
         // Convert the database row to a Project entity and return it
         return $this->rowToEntity($row);
-    }
+    }   
 
     /**
      * Finds Project entities by their owner's username
@@ -118,19 +121,73 @@ class ProjectMapper {
         return $projects;
     }
 
+    public function findByOwnerWithCounts($username) {
+        $stmt = $this->db->prepare("SELECT p.*,
+            (SELECT COUNT(*) FROM project_members pm WHERE pm.project_id = p.project_id) AS member_count,
+            (SELECT COUNT(*) FROM tasks t WHERE t.project_id = p.project_id) AS task_count
+            FROM projects p
+            WHERE p.project_owner = ? ORDER BY p.project_created_at DESC");
+        $stmt->execute(array($username));
+
+        $projects = array();
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $projects[] = $this->rowToEntity($row);
+        }
+
+        return $projects;
+    }
+
     /**
-     * Finds Project entities by member username
+     * Finds Project entities by their member's username, excluding owned projects
      * 
      * @param string $username The member's username
      * @return array An array of Project entities
      */
-    public function findByMember($username) {
+    public function findByMemberOnly($username) {
         $stmt = $this->db->prepare("SELECT p.* FROM projects p JOIN project_members pm ON p.project_id = pm.project_id 
-            WHERE pm.username = ? ORDER BY p.project_created_at DESC");
+            WHERE pm.username = ? AND p.project_owner != ? ORDER BY p.project_created_at DESC");
 
-        $stmt->execute(array($username));
+        $stmt->execute(array($username, $username));
         
         $projects = array();
+
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $projects[] = $this->rowToEntity($row);
+        }
+
+        return $projects;
+    }
+
+    public function findByMemberOnlyWithCounts($username) {
+        $stmt = $this->db->prepare("SELECT p.*,
+            (SELECT COUNT(*) FROM project_members pm WHERE pm.project_id = p.project_id) AS member_count,
+            (SELECT COUNT(*) FROM tasks t WHERE t.project_id = p.project_id) AS task_count
+            FROM projects p JOIN project_members pm ON p.project_id = pm.project_id 
+            WHERE pm.username = ? AND p.project_owner != ? ORDER BY p.project_created_at DESC");
+
+        $stmt->execute(array($username, $username));
+        
+        $projects = array();
+
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $projects[] = $this->rowToEntity($row);
+        }
+
+        return $projects;        
+    }
+
+    /**
+     * Finds all Project entities where the user is either owner or member
+     * 
+     * @param string $username The username of the user
+     * @return array An array of Project entities
+     */
+    public function findAllByUser($username) {
+        $stmt = $this->db->prepare("SELECT p.   * FROM projects p JOIN project_members pm ON p.project_id = pm.project_id 
+            WHERE pm.username = ? ORDER BY p.project_created_at DESC");
+        $stmt->execute(array($username));
+
+        $projects =array();
 
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $projects[] = $this->rowToEntity($row);
@@ -233,7 +290,18 @@ class ProjectMapper {
         $project->setName($row['project_name']);
         $project->setDescription($row['project_description']);
         $project->setOwnerUsername($row['project_owner']);
-        $project->setCreatedAt($row['project_created_at']);
+        $createdAt = DateTime::createFromFormat('Y-m-d H:i:s', $row['project_created_at']);
+        $project->setCreatedAt($createdAt);
+
+        if (isset($row['member_count'])) {
+            $project->setMemberCount($row['member_count']);
+        }
+
+        if (isset($row['task_count'])) {
+            $project->setTaskCount($row['task_count']);
+        }
+
+        return $project;
     }
 
 }

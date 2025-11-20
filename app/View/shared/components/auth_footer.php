@@ -2,7 +2,6 @@
 // file: /app/View/shared/components/footer.php
 
 $view = ViewManager::getInstance();
-$action
 
 ?>
 
@@ -14,5 +13,5 @@ $action
         </a>
     </p>
 
-    <p><?php include(__DIR__."/language_selector_flags.php") ?></p>
+    <?php include(__DIR__ . '/language_dropdown.php') ?>
 </div>

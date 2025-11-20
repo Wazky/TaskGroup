@@ -45,9 +45,9 @@ class BaseController {
 
         if (isset($_SESSION["current_user"])) {
 
-            $this->currentUser = $_SESSION["current_user"];
+            $this->currentUser = new User($_SESSION["current_user"]);
             // Pass current username to view
-            $this->view->setVariable("current_user", $this->currentUser);
+            $this->view->setVariable("current_user", $this->currentUser->getUsername());
         }
     }
 
@@ -57,6 +57,7 @@ class BaseController {
 
     protected function requireAuthentication() {
         if (!$this->isUserLoggedIn()) {
+            $this->view->setFlash(i18n("You must be logged in to access this page."));
             $this->view->redirect(self::AUTH_CONTROLLER_NAME, self::AUTH_LOGIN_ACTION);
             exit;
         }

@@ -48,7 +48,7 @@ $currentUser = $view->getVariable("current_user");
     <div class="form-group">
         <label for="confirm_password"><?= i18n("Confirm Password") ?></label>
         <input type="password" id="confirm_password" name="confirm_password" placeholder="<?= i18n("Repeat your password") ?>" 
-            class="border <?= isset($errors["confirm_password"]) ? "border-danger" : "" ?>" required>
+            class="border border-secondary <?= isset($errors["confirm_password"]) ? "border-danger" : "" ?>" required>
         <div class="error"><?= i18n("Passwords do not match") ?></div>
     </div>
     
@@ -58,7 +58,7 @@ $currentUser = $view->getVariable("current_user");
 </form>
 
 
-<!-- Fragments Setup -->
+<!-- Fragments & Variables Setup -->
 <?php
 //Create javascript fragment
 $view->moveToFragment("javascript");
@@ -67,7 +67,7 @@ $view->moveToDefaultFragment();
 
 // Create logo fragment
 $view->moveToFragment("logo");
-include(__DIR__."/../../shared/components/logo.php");
+include(__DIR__."/../../shared/components/auth_logo.php");
 $view->moveToDefaultFragment();
 
 // Set view variables
@@ -81,6 +81,6 @@ $view->setVariable("auth-footer-link-text", i18n("Log in here"));
 
 // Create footer fragment
 $view->moveToFragment("footer");
-include(__DIR__."/../../shared/components/footer.php");
+include(__DIR__."/../../shared/components/auth_footer.php");
 $view->moveToDefaultFragment();
 ?>

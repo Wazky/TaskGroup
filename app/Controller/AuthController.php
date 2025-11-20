@@ -61,7 +61,7 @@ class AuthController extends BaseController {
             if ($this->userMapper->isValidUser($_POST["auth-identifier"], $_POST["password"])) {
 
                 // Set the current user in the session
-                $_SESSION["current_user"] = $this->userMapper->getUser($_POST["auth-identifier"]);
+                $_SESSION["current_user"] = $this->userMapper->getUser($_POST["auth-identifier"])->getUsername();
 
                 // Send user to the dashboard (projects index)
                 $this->view->redirect(self::PROJECTS_CONTROLLER_NAME, self::PROJECTS_INDEX_ACTION);
@@ -101,7 +101,7 @@ class AuthController extends BaseController {
                     
                     $this->view->setFlash(i18n("User account successfully created."));
                     // Set the current user in the session
-                    $_SESSION["current_user"] = $user;
+                    $_SESSION["current_user"] = $user->getUsername();
 
                     // Registration successful, redirect to projects index
                     $this->view->redirect(self::PROJECTS_CONTROLLER_NAME, self::PROJECTS_INDEX_ACTION);
@@ -130,7 +130,7 @@ class AuthController extends BaseController {
             }
         }
 
-        $this->view->setVariable("current_user", $user);
+        $this->view->setVariable("current_user", $user->getUsername());
 
         // Render the register view: View/pages/auth/register.php (also for GET requests)
         $this->view->render(self::AUTH_CONTROLLER_NAME, self::AUTH_REGISTER_ACTION);

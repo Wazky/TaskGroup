@@ -55,11 +55,25 @@ class Project {
     private $members;
 
     /**
+     * The member count of the project
+     * 
+     * @var int
+     */
+    private $memberCount;
+
+    /**
      * The tasks of the project
      * 
      * @var array
      */
     private $tasks;
+
+    /**
+     * The task count of the project
+     * 
+     * @var int
+     */
+    private $taskCount;
 
     public function __construct($id = null,$name = null, $description = null, $ownerUsername = null, $createdAt = null) {
         $this->id = $id;
@@ -109,6 +123,10 @@ class Project {
         return $this->createdAt;
     }
 
+    public function getCreatedAtFormatted() {
+        return $this->getCreatedAt()->format("d/m/y");
+    }
+
     public function setCreatedAt($createdAt) {
         $this->createdAt = $createdAt;
     }
@@ -151,7 +169,19 @@ class Project {
     }
 
     public function getMemberCount() {
-        return count($this->members);
+        if ($this->memberCount > 0) {
+            return $this->memberCount;
+        }
+
+        if (!empty($this->members)) {
+            return count($this->members);
+        }
+
+        return 0;
+    }
+
+    public function setMemberCount($memberCount) {
+        $this->memberCount = $memberCount;
     }
 
     // TASK MANAGEMENT METHODS
@@ -177,6 +207,22 @@ class Project {
             }
         }
         return false;
+    }
+
+    public function getTaskCount() {
+        if ($this->taskCount > 0) {
+            return $this->taskCount;
+        }
+
+        if (!empty($this->tasks)) {
+            return count($this->tasks);
+        }
+
+        return 0;
+    }
+
+    public function setTaskCount($taskCount) {
+        $this->taskCount = $taskCount;
     }
 
     public function getTasksByStatus($status) {
