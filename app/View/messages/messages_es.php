@@ -59,5 +59,29 @@ $i18n_messages = array(
     "Member of" => "Miembro de",
     "Members" => "Miembros",
     "Tasks" => "Tareas",
+
+    "Project Info" => "Información del Proyecto",
+    "Project Name" => "Nombre del Proyecto",
+    "Description" => "Descripción",
+    "Owner" => "Propietario",
+    "Created Date" => "Fecha de Creación",
+    "Overview" => "Resumen",
+    "Completed" => "Resueltas",
+    "completed" => "resuelta",
+    "To do" => "Pendientes",
+    "to do" => "pendiente",
+    "Total Tasks" => "Tareas Totales",
+    "Participants" => "Participantes",
+    "Member List" => "Lista de Miembros",
+    "Task List" => "Lista de Tareas",
+    "Your Tasks" => "Tus Tareas",
+    "All" => "Todas",
+    "Mark as Done" => "Marcar como Completada",
+    "All Tasks" => "Todas las Tareas",
+    "Assigned to:" => "Asignada a:",
+
+    "Edit" => "Editar",
+    "Delete" => "Eliminar",
+
 );
 ?>

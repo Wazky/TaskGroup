@@ -231,6 +231,12 @@ class Project {
         });
     }
 
+    public function getTasksByUser($username) {
+        return array_filter($this->tasks, function($task) use ($username) {
+            return $task->getAssignedUsername() === $username;
+        });
+    }
+
     public function getProgressPercentage() {
         $totalTasks = count($this->tasks);
         if ($totalTasks === 0) {

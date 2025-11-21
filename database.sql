@@ -76,7 +76,7 @@ INSERT INTO users (username, email, password) VALUES
 -- Insertar proyectos
 INSERT INTO projects (project_name, project_description, project_owner) VALUES
 ('Desarrollo App Móvil', 'Aplicación de gestión de tareas para iOS y Android', 'admin'),
-('Sitio Web Corporativo', 'Rediseño del sitio web principal de la empresa', 'maria_garcia'),
+('Sitio Web Corporativo', 'Rediseño del sitio web principal de la empresa que tendra bla bla bla y la descripcion va a ser mas larga para ver como se  muestra en la vista de detalle y si se muestra bien con el diseño actual', 'maria_garcia'),
 ('Campanha Marketing Q4', 'Estrategia de marketing para el último trimestre del año', 'carlos_lopez'),
 ('Investigación de Mercado', 'Análisis de competencia y tendencias del sector', 'ana_martinez'),
 ('Migración a Cloud', 'Traslado de servidores locales a infraestructura cloud', 'admin'),
@@ -86,7 +86,7 @@ INSERT INTO projects (project_name, project_description, project_owner) VALUES
 ('E-commerce Platform', 'Plataforma de ventas online con carrito de compras', 'pedro_rodriguez'),
 ('Dashboard Analytics', 'Panel de control con métricas y gráficos en tiempo real', 'laura_sanchez'),
 ('Mobile Wallet', 'Aplicación de billetera digital y pagos móviles', 'admin'),
-('CRM Personalizado', 'Sistema de gestión de relaciones con clientes', 'maria_garcia'),
+('CRM Personalizado Titulo Largo Mostrar En Vista Titulo Largo', 'Sistema de gestión de relaciones con clientes', 'maria_garcia'),
 ('Game Development', 'Desarrollo de juego móvil en Unity', 'carlos_lopez'),
 ('IoT Home Automation', 'Sistema de automatización del hogar con sensores', 'ana_martinez'),
 ('Blockchain Explorer', 'Explorador de transacciones para criptomonedas', 'pedro_rodriguez'),

@@ -29,6 +29,7 @@ $currentUser = $view->getVariable("current_user");
     <link rel="stylesheet" href="<?= CSS_PATH ?>/main.css">
 
     <!-- Importar scripts -->
+    <script type="module" src="<?= JS_PATH ?>/utils.js"></script>
     <?= $view->getFragment("javascript"); ?>
 
 </head>
@@ -113,10 +114,11 @@ $currentUser = $view->getVariable("current_user");
                 <main class="main-content py-4 bg-tg-primary-10">
                     
                     <!-- Page Header -->
-                    <div class="d-flex justify-content-center align-items-center mb-4">
-                        <h1 class="h1 fw-bold text-white"><?= $view->getVariable("main-content-header") ?></h1>
+                    <div class="d-flex justify-content-center align-items-center mb-4 ">
+                        <h1 class="h1 fw-bold text-center text-white me-3"><?= $view->getVariable("main-content-header") ?></h1>
                         <div class="page-actions">
                             <!-- Aquí van botones de acciones específicas -->
+                            <?= $view->getFragment("actions-header-main") ?>
                         </div>
                     </div>
                     
@@ -163,7 +165,6 @@ $currentUser = $view->getVariable("current_user");
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Nuestro JS personalizado -->    
-    <script src="<?= JS_PATH ?>/main.js"></script>
 
 </body>
 </html>

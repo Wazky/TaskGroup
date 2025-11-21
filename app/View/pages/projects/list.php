@@ -16,7 +16,7 @@ $memberProjects = $view->getVariable("memberProjects");
         <div class="d-flex justify-content-between align-items-center mb-2 ms-2 ">
             <h2 class="h4 card-title  text-white "> <?= strtoupper(i18n("Your Projects")) ?></h2>
             <div class="page-actions">
-                    <a href="index.php?controller=projects&action=create" class="bg-light btn btn-lg">
+                    <a href="index.php?controller=projects&action=create" class="btn btn-light btn-lg">
                         <i class="bi bi-plus-square-fill me-1"></i><?= i18n("New Project") ?>
                     </a>
             
@@ -36,7 +36,7 @@ $memberProjects = $view->getVariable("memberProjects");
                                     <h3 class="h3 fw-bold"><?= $project->getName() ?></h3>                                
                                 </div>
                                 <div class="col-4 my-auto align-left">
-                                    <h3 class="h6 ms-3 fst-italic"><?= $project->getDescription() ?></h3>    
+                                    <h3 class="h6 ms-3 fst-italic"><?= (strlen($project->getDescription()) > 60) ? substr($project->getDescription(), 0, 60) . "..." : $project->getDescription() ?></h3>    
                                     
                                 </div>                      
                                 <div class ="col-1 text-center my-auto">
@@ -84,7 +84,7 @@ $memberProjects = $view->getVariable("memberProjects");
                                     <h3 class="h3 fw-bold"><?= $project->getName() ?></h3>                                
                                 </div>
                                 <div class="col-4 my-auto align-left">
-                                    <h3 class="h6 ms-3 fst-italic"><?= $project->getDescription() ?></h3>    
+                                    <h3 class="h6 ms-3 fst-italic"><?= (strlen($project->getDescription()) > 60) ? substr($project->getDescription(), 0, 60) . "..." : $project->getDescription() ?></h3>    
                                     
                                 </div>                      
                                 <div class ="col-1 text-center my-auto">

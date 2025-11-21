@@ -5,17 +5,20 @@ document.addEventListener('DOMContentLoaded', function() {
         const targetId = button.getAttribute('data-bs-target');
         const collapseElement = document.querySelector(targetId);
         const toggleIcon = button.querySelector('.toggle-icon');
-        const iconCollapsed = button.getAttribute('data-toggle-icon') || 'bi-chevron-down';
+        
+        const iconCollapsed = 'bi-chevron-down';
         const iconExpanded = 'bi-chevron-up';
 
         if(collapseElement) {
             // Add hide event listener
             collapseElement.addEventListener('hide.bs.collapse', function() {
-                toggleIcon.className = `bi ${iconCollapsed} toggle-icon`;
+                toggleIcon.classList.remove('bi-chevron-up');
+                toggleIcon.classList.add('bi-chevron-down');
             });
             // Add show event listener
             collapseElement.addEventListener('show.bs.collapse', function() {
-                toggleIcon.className = `bi ${iconExpanded} toggle-icon`;
+                toggleIcon.classList.remove('bi-chevron-down');
+                toggleIcon.classList.add('bi-chevron-up');
             });
         }
     });
