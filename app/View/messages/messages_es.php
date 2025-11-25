@@ -54,6 +54,14 @@ $i18n_messages = array(
     "Dashboard" => "Panel de control",
     "You must be logged in to access this page." => "Debes iniciar sesión para, acceder a esta página.",
 
+    "Project ID is required." => "Se requiere el ID del proyecto.",
+    "You do not have permission to access this project." => "No tienes permiso para acceder a este proyecto.",
+    "Project ID is required." => "Se requiere el ID del proyecto.", 
+    "No project found with the given ID." => "No se encontró ningún proyecto con el ID proporcionado.",
+    "You do not have permission to delete this project." => "No tienes permiso para eliminar este proyecto.",
+    "Confirm" => "Confirmar",
+    "Cancel" => "Cancelar",
+
     "Projects" => "Proyectos",
     "Your Projects" => "Tus Proyectos",
     "Member of" => "Miembro de",
@@ -71,7 +79,7 @@ $i18n_messages = array(
     "To do" => "Pendientes",
     "to do" => "pendiente",
     "Total Tasks" => "Tareas Totales",
-    "Participants" => "Participantes",
+    "Participants: " => "Participantes: ",
     "Member List" => "Lista de Miembros",
     "Task List" => "Lista de Tareas",
     "Your Tasks" => "Tus Tareas",
@@ -82,6 +90,9 @@ $i18n_messages = array(
 
     "Edit" => "Editar",
     "Delete" => "Eliminar",
+
+    "Confirm" => "Confirmar",
+    "Are you sure you want to delete this project? All associated task will be deleted as well." => "¿Estás seguro de que deseas eliminar este proyecto? Todas las tareas asociadas también serán eliminadas.",
 
 );
 ?>

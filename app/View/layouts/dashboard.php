@@ -30,6 +30,7 @@ $currentUser = $view->getVariable("current_user");
 
     <!-- Importar scripts -->
     <script type="module" src="<?= JS_PATH ?>/utils.js"></script>
+    <script src="<?= JS_PATH ?>/confirmActionModal.js"></script>
     <?= $view->getFragment("javascript"); ?>
 
 </head>
@@ -45,7 +46,7 @@ $currentUser = $view->getVariable("current_user");
                     <button class="btn btn-link text-dark d-lg-none me-2" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarCollapse">
                         <i class="bi bi-list"></i>
                     </button>
-                    <a href="<?= BASE_URL ?>/app/View/pages/dashboard.php" class="text-decoration-none d-flex align-items-center">
+                    <a href="index.php?controller=projects&amp;action=index" class="text-decoration-none d-flex align-items-center">
                         <img src="<?= IMAGES_PATH ?>/logo/taskgroup-logo-icon.png" alt="TaskGroup" class="me-2" style="height: 32px;">
                         <span class="fw-bold fs-5">
                             <span style="color: #6C2DBE;">TASK</span>
@@ -122,6 +123,11 @@ $currentUser = $view->getVariable("current_user");
                         </div>
                     </div>
                     
+
+                    <p class="text-white h1"><?= $errors ?></p>
+                
+                    <p class="text-white h1"><?= $view->popFlash() ?></p>
+
                     <!-- Page Content -->
                     <div class="page-content">
                         <!-- ===== CONTENIDO ESPECÍFICO DE CADA PÁGINA AQUÍ ===== -->
@@ -161,6 +167,43 @@ $currentUser = $view->getVariable("current_user");
             </div>
         </div>
     </footer>
+
+    <!-- Action Confirmation Modal -->
+    <div class="modal fade" id="confirmActionModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmActionModalTitle"><?= i18n("Confirm") ?></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <form id="confirmActionForm" method="POST" class="d-inline">
+                    <div class="modal-body">
+                        <p id="confirmActionMessage" ><?= i18n("Are you sure you want to proceed with this action?") ?></p>
+                        
+                        <!-- Dynamic inputs -->
+                        <div id="confirmActionInputs"></div>
+
+                        <!-- Hidden input for ID -->
+                        <input type="hidden" name="id" id="confirmActionId">
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="buton" class="btn btn-secondary" data-bs-dismiss="modal">
+                            <?= i18n("Cancel") ?>
+                        </button>
+                        
+                        <button type="submit" id="confirmActionButton" class="btn btn-danger">
+                            <?= i18n("Confirm") ?>
+                        </button>
+                    </div>
+                </form>
+                
+            </div>
+        </div>
+    </div>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

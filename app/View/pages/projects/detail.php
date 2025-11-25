@@ -13,11 +13,9 @@ $tasks = $projectInfo->getTasks();
 $completedTasks = $projectInfo->getTasksByStatus("completed");
 $todoTasks = $projectInfo->getTasksByStatus("to do");
 
-
 ?>
 
-
-
+<!-- Project Detail Page Content  -->
 <div class="row">
     <div class="col-12">
         <div class="card border-0 shadow-lg bg-tg-grey">
@@ -161,10 +159,27 @@ $todoTasks = $projectInfo->getTasksByStatus("to do");
                                     <div class="d-flex justify-content-between align-items-center mb-3">
                                         <div class="text-start small text-light">
                                             <i class="bi bi-people-fill me-1"></i>
-                                            <span><?= strtoupper(i18n("Participants")) ?>: <?= count($members) ?></span>
+                                            <span><?= strtoupper(i18n("Participants: ")) ?></span>
+                                            <span class="h4 fw-bold"><?= count($members) ?></span>
                                         </div>
-                                        <!-- Add Member Button (Change it to <a> ?) -->
-                                        <button class="btn btn-lg btn-light fw-bold w-30">
+                                        <!-- Add Member Button -->
+                                        <button class="btn btn-lg btn-light fw-bold w-30"
+                                            onclick="openConfirmModal({
+                                                title: '<?= i18n("Add Member") ?>',
+                                                message: '<?= i18n("Enter the username of the member to add:") ?>',
+                                                action: 'index.php?controller=projects&amp;action=addMember',
+                                                id: '<?= $projectInfo->getId() ?>',
+                                                inputs: [{
+                                                    type: 'text',
+                                                    name: 'username',
+                                                    label: '<?= i18n("Username") ?>',
+                                                    placeholder: '<?= i18n("Enter username") ?>',
+                                                }],
+
+                                                confirmButtonText: '<?= i18n("Add Member") ?>',
+                                                confirmButtonClass: 'bg-tg-primary text-light'
+                                            })"
+                                        >
                                             <i class="bi bi-person-fill-add me-2"></i>                                                                                
                                         </button>
                                     </div>
@@ -176,14 +191,34 @@ $todoTasks = $projectInfo->getTasksByStatus("to do");
                                     </div>
                                     <?php foreach($members as $member): ?>  
                                         <!-- Member Card -->
-                                        <div class="card justify-content-start align-items-center mt-2 bg-light" data-entity="user" data-id="<?= $member ?>">                                            
-                                            <div class="card-body d-flex p-3">
+                                        <div class="card mt-2 bg-light" data-entity="user" data-id="<?= $member ?>">                                            
+                                            <div class="card-body d-flex  justify-content-between align-items-center">
                                                 <div class="member-avatar text-dark me-2">
-                                                    <i class="bi bi-person-circle"></i>
+                                                    <p class="fw-bold text-dark">
+                                                        <i class="bi bi-person-circle"></i>  
+                                                        <?= $member ?>
+                                                    </p>                                                 
                                                 </div>
-                                                <div>
-                                                    <div class="fw-bold text-dark"><?= $member ?></div>                                            
-                                                </div>
+                                                <?php if ($projectInfo->getOwnerUsername() === $currentUser): ?>
+                                                    <button class="btn btn-danger fw-bold"
+                                                        onclick="openConfirmModal({
+                                                            title: '<?= i18n("Remove Member") ?>',
+                                                            message: '<?= i18n("Are you sure you want to remove " . $member . " from the project?") ?>',
+                                                            action: 'index.php?controller=projects&amp;action=removeMember',
+                                                            id: '<?= $projectInfo->getId() ?>',
+                                                            inputs: [{
+                                                                type: 'hidden',
+                                                                name: 'username',
+                                                                value: '<?= $member ?>',                                                            
+                                                            }],
+                                                            confirmButtonText: '<?= i18n("Remove") ?>',
+                                                            confirmButtonClass: 'btn-danger'
+                                                        })"
+                                                    >
+                                                        <i class="bi bi-eraser-fill"></i>
+                                                    </button>
+
+                                                <?php endif;?>
                                             </div>
                                         </div>
                                     <?php endforeach; ?>    
@@ -209,13 +244,21 @@ $todoTasks = $projectInfo->getTasksByStatus("to do");
                             </button>
                         </div>
 
+                        
                         <!-- Tasks List Content -->
                         <div class="collapse show" id="taskListSection">
                             <div class="card bg-secondary shadow-sm">
                                 <div class="card-body">
+                                    <!-- Create Task Button -->                                
+                                    <a class="btn btn-lg btn-light fw-bold mb-2" 
+                                        href="<?= "index.php?controller=tasks&amp;action=create&amp;projectId=".$projectInfo->getId() ?>"
+                                    >
+                                        <?= i18n("Create Task") ?>
+                                    </a>
+                                    
                                     <div class="row">
                                         <div class="col-md-6 your-tasks-container">
-                                            <!-- Tasks Table -->
+                                            <!-- Your Tasks Table -->
                                             <div class="d-flex justify-content-between align-items-center mb-3">
                                                 <h3 class="h4 text-white fw-bold">
                                                     <i class="bi bi-paperclip me-1"></i>
@@ -228,7 +271,7 @@ $todoTasks = $projectInfo->getTasksByStatus("to do");
                                                 </div>
                                             </div>
                                             <hr class="text-white mb-2">
-
+                                            <!-- Your Tasks List -->
                                             <?php foreach($projectInfo->getTasksByUser($currentUser) as $task): ?>
                                                 <?php $status = $task->getStatus(); ?>
                                                 <div class="row-md-3 mb-2 task-item" data-entity="task" data-id="<?= $task->getId() ?>">
@@ -276,7 +319,7 @@ $todoTasks = $projectInfo->getTasksByStatus("to do");
                                                 </div>
                                             </div>
                                             <hr class="text-white mb-2">
-
+                                            <!-- All Tasks List -->
                                             <?php foreach($tasks as $task): ?>
                                                 <?php $status = $task->getStatus(); ?>
                                                 <div class="row-md-3 mb-2 task-item" data-entity="task" data-id="<?= $task->getId() ?>" data-status="<?= $status ?>">
@@ -322,6 +365,7 @@ $todoTasks = $projectInfo->getTasksByStatus("to do");
     </div>
 </div>
 
+
 <!-- Fragments & Variables Setup -->
 <?php
 // Set view variables
@@ -337,6 +381,7 @@ $view->setVariable("main-content-header", $projectInfo->getName());
     <script src="<?= JS_PATH ?>/collapse_sections.js"></script>
     <script src="<?= JS_PATH ?>/chart.js"></script>
     <script src="<?= JS_PATH ?>/task_filter.js"></script>
+    <script src="<?= JS_PATH ?>/confirmActionModal.js"></script>
 <?php $view->moveToDefaultFragment(); ?>
 
 <?php $view->moveToFragment("actions-header-main") ?>
@@ -345,8 +390,21 @@ $view->setVariable("main-content-header", $projectInfo->getName());
         <i class="bi bi-pencil-fill me-2"></i>
         <?= i18n("Edit") ?>
     </a>
-    <a class="btn btn-lg btn-danger fw-bold" href="<?= "index.php?controller=projects&amp;action=delete&amp;id=" . $projectInfo->getId() ?>">
+    <?php if ($currentUser === $projectInfo->getOwnerUsername()): ?>
+    <button 
+        class="btn btn-lg btn-danger fw-bold"
+        onclick="openConfirmModal({
+            title: '<?= i18n("Delete project") ?>',
+            message: '<?= i18n("Are you sure you want to delete this project? All associated task will be deleted as well.") ?>',
+            action: 'index.php?controller=projects&amp;action=delete',
+            id: '<?= $projectInfo->getId() ?>',
+            confirmButtonText: '<?= i18n("Delete") ?>',
+            confirmButtonClass: 'btn-danger'
+        })"
+    >
         <i class="bi bi-trash-fill me-2"></i>
         <?= i18n("Delete") ?>
-    </a>
+    </button>
+
+    <?php endif; ?>
 <?php $view->moveToDefaultFragment(); ?>

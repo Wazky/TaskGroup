@@ -11,20 +11,25 @@ $ownedProjects = $view->getVariable("ownedProjects");
 $memberProjects = $view->getVariable("memberProjects"); 
 ?>
 
+<!--Project List Page Content -->
 <div class="card border-0 shadow-sm bg-tg-grey mb-2">
+    <!-- Owned Projects Section -->
     <div class="card-body">
+        <!-- Owned Projects Header -->
         <div class="d-flex justify-content-between align-items-center mb-2 ms-2 ">
+            <!-- Section Title -->
             <h2 class="h4 card-title  text-white "> <?= strtoupper(i18n("Your Projects")) ?></h2>
+            <!-- Section Actions -->
             <div class="page-actions">
-                    <a href="index.php?controller=projects&action=create" class="btn btn-light btn-lg">
-                        <i class="bi bi-plus-square-fill me-1"></i><?= i18n("New Project") ?>
-                    </a>
-            
-            <button class="btn btn-lg text-white section-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#ownedProjectList">
-                <i class="bi bi-chevron-up toggle-icon"></i>
-            </button>
+                <a href="index.php?controller=projects&action=create" class="btn btn-light btn-lg">
+                    <i class="bi bi-plus-square-fill me-1"></i><?= i18n("New Project") ?>
+                </a>
+                <button class="btn btn-lg text-white section-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#ownedProjectList">
+                    <i class="bi bi-chevron-up toggle-icon"></i>
+                </button>
             </div>
         </div>
+        <!-- Owned Projects List -->
         <div class="collapse show" id="ownedProjectList">
             <hr class="text-white border-2"/>
             <div class="col mt-4">
@@ -50,7 +55,18 @@ $memberProjects = $view->getVariable("memberProjects");
                                 <div class="col-1 my-auto">
                                     <div class="d-flex flex-column gap-2">                                                                                                                                  
                                                 <a href="<?= "index.php?controller=projects&amp;action=edit&amp;id=" . $project->getId() ?>" class="btn btn-light "><i class="bi bi-pencil-fill"></i></a>
-                                                <a href="<?= "index.php?controller=projects&amp;action=delete&amp;id=" . $project->getId() ?>" class="btn btn-light "><i class="bi bi-trash-fill"></i></a>                                                                          
+                                                <button class="btn btn-light"
+                                                    onclick="openConfirmModal({
+                                                        title: '<?= i18n("Delete project") ?>',
+                                                        message: '<?= i18n("Are you sure you want to delete this project? All associated task will be deleted as well.") ?>',
+                                                        action: 'index.php?controller=projects&amp;action=delete',
+                                                        id: <?= $project->getId() ?>,
+                                                        confirmButtonText: '<?= i18n("Delete") ?>',
+                                                        confirmButtonClass: 'btn-danger'    
+                                                    })"
+                                                >
+                                                    <i class="bi bi-trash-fill"></i>                                                
+                                                </button>
                                     </div>                                
                                 </div>                                                  
                             </div>

@@ -216,7 +216,7 @@ class ProjectMapper {
 
 
     public function delete($projectId) {
-        $stmt = $this->db->prepare("DELETE FROM project WHERE project_id = ?");
+        $stmt = $this->db->prepare("DELETE FROM projects WHERE project_id = ?");
         $stmt->execute(array($projectId));
 
         return ($stmt->rowCount() > 0);
