@@ -124,9 +124,18 @@ $currentUser = $view->getVariable("current_user");
                     </div>
                     
 
-                    <p class="text-white h1"><?= $errors ?></p>
-                
-                    <p class="text-white h1"><?= $view->popFlash() ?></p>
+                    <?php if(isset($errors["general"])): ?>
+                        <div class="alert alert-danger">                            
+                            <p class="text-white h1">HUBO ERRORES</p>
+                            <p class="text-white h1"><?= $errors["general"] ?></p>                            
+                        </div>
+                    <?php endif; ?>
+
+                    <div class="<?= $view->getVariable("flash-type") ?>">
+                        <p class="text-white h1"><?= $view->popFlash() ?></p>
+                    </div>
+
+                    
 
                     <!-- Page Content -->
                     <div class="page-content">

@@ -4,7 +4,7 @@
 require_once __DIR__ . '/../../../../config/paths.php';
 
 $view = ViewManager::getInstance();
-$errors = $view->getVariable("errors");
+
 $currentUser = $view->getVariable("current_user");
 
 $ownedProjects = $view->getVariable("ownedProjects");
@@ -57,7 +57,7 @@ $memberProjects = $view->getVariable("memberProjects");
                                                 <a href="<?= "index.php?controller=projects&amp;action=edit&amp;id=" . $project->getId() ?>" class="btn btn-light "><i class="bi bi-pencil-fill"></i></a>
                                                 <button class="btn btn-light"
                                                     onclick="openConfirmModal({
-                                                        title: '<?= i18n("Delete project") ?>',
+                                                        title: '<?= i18n("Delete Project") ?>',
                                                         message: '<?= i18n("Are you sure you want to delete this project? All associated task will be deleted as well.") ?>',
                                                         action: 'index.php?controller=projects&amp;action=delete',
                                                         id: <?= $project->getId() ?>,

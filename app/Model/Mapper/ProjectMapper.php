@@ -47,8 +47,7 @@ class ProjectMapper {
         $stmt->execute(array($project->getName(), $project->getDescription(), $project->getOwnerUsername()));
 
         // Get the inserted project ID
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        $project->setId($result['project_id']);
+        $project->setId($this->db->lastInsertId());
 
         // Add the owner as a member
         $this->addMember($project->getOwnerUsername(), $project->getId());
@@ -72,6 +71,14 @@ class ProjectMapper {
         $stmt = $this->db->prepare("UPDATE projects SET project_name = ?, project_description = ? WHERE project_id = ?");
         $result = $stmt->execute(array($project->getName(), $project->getDescription(), $project->getId()));
 
+        return $result;
+    }
+
+    private function updateProjectAndMembers($project) {
+        // Update project details
+        $stmt = $this->db->prepare("UPDATE projects SET project_name = ?, project_description = ? WHERE project_id = ?");
+        $result = $stmt->execute(array($project->getName(), $project->getDescription(), $project->getId()));
+
         // Check if update was successful
         if ($result) {
             // Update members
@@ -80,6 +87,7 @@ class ProjectMapper {
 
         return $result;
     }
+
 
     /**
      * Finds a Project entity by its ID

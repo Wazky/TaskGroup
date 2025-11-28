@@ -77,6 +77,71 @@ class ProjectsController extends BaseController {
     
     }
 
+    public function create() {
+        // Check authentication
+        $this->requireAuthentication();
+
+        $project = new Project();
+
+        // Handle form submission
+        if (isset($_POST["submit"])) {
+
+            // Populate project entity with form data
+            $project->setName($_POST["project_name"]);
+            $project->setDescription($_POST["project_description"]);
+            $project->setOwnerUsername($this->currentUser->getUsername());
+            // Save members in case of validation error to show them again
+            $tempMembers = $_POST["members"] ?? array();
+            
+            try {
+                $invalidMembers = array();
+                // Add valid members to the project entity
+                foreach ($tempMembers as $memberUsername) {
+                    // Check existence/validity and add them
+                    if (($user = $this->userMapper->getUser($memberUsername)) !== null) {
+                        $project->addMember($user->getUsername());
+                    
+                    // If user invalid add to invalid members array
+                    } else {
+                        $invalidMembers[] .= $memberUsername;
+                    }              
+                }
+                
+                // If there are invalid members, throw validation exception
+                if (count($invalidMembers) > 0) {
+                    // Restore members to tempMembers for re-display in the form
+                    $project->setMembers($tempMembers);
+                    $errors["members"] = sprintf(i18n("The following members do not exist: %s"), implode(", ", $invalidMembers));
+                    throw new ValidationException($errors);
+                }
+
+                // Validate Project object
+                $project->checkIsValidForCreate();
+
+                // Save the project to the database
+                $project = $this->projectMapper->save($project);
+
+                // POST-REDIRECT-GET
+                // Set success flash message
+                $this->view->setFlash(sprintf(i18n("Project \"%s\" successfully created."), $project->getName()));
+                // Redirect to created project's detail page
+                $this->view->redirect(self::PROJECTS_CONTROLLER_NAME, self::PROJECTS_DETAIL_ACTION,"id=".$project->getId());
+
+            } catch (ValidationException $ex) {
+                // Get the errors from the exception
+                $errors = $ex->getErrors();
+                // Set errors to the view
+                $this->view->setVariable("errors", $errors);                
+            }
+        }
+
+        // Set project variable for the view
+        $this->view->setVariable("project", $project);
+        // Render the create view
+        $this->view->render(self::PROJECTS_CONTROLLER_NAME, self::PROJECTS_CREATE_ACTION);
+
+    }
+
     public function list() {
         // Check authentication
         $this->requireAuthentication();
@@ -106,11 +171,16 @@ class ProjectsController extends BaseController {
         // Obtain project id from query parameters
         $projectId = $_GET["id"];
 
-        // Check if the current user is member of the project
+        // Check if the current user is member of the project (Independent of project existence)
         if (!$this->projectMapper->isUserMember($this->currentUser->getUsername(), $projectId)) {
             $errors = array();
-            $errors["general"] = i18n("You do not have permission to access this project.");
+            $errors["general"] = i18n("You do not have permission to access this project.");            
             $this->view->setVariable("errors", $errors);
+            // La variable no aplica al usar redirect (mirar de solucionar)
+
+            $this->view->setFlash(i18n("MSG BY FLASH"));
+            $this->view->setVariable("flash-type", "alert alert-danger", true);
+
             $this->view->redirect(self::PROJECTS_CONTROLLER_NAME, self::PROJECTS_LIST_ACTION);
             return;
         }
@@ -131,6 +201,63 @@ class ProjectsController extends BaseController {
 
         // Render the detail view
         $this->view->render(self::PROJECTS_CONTROLLER_NAME, self::PROJECTS_DETAIL_ACTION);
+    }
+
+    public function edit() {
+        // Check authentication
+        $this->requireAuthentication();
+
+        // Check if project id is provided
+        if (!isset($_REQUEST["id"])) {
+            throw new Exception(i18n("Project ID is required."));
+        }
+
+        // Obtain project from database
+        $projectId = $_REQUEST["id"];
+        $project = $this->projectMapper->findById($projectId);
+
+        // Verify that the project exists
+        if ($project == null) {
+            throw new Exception(i18n("No project found with the given ID."));
+        }
+
+        // Verify that the current user is member of the project
+        if (!$this->projectMapper->isUserMember($this->currentUser->getUsername(), $projectId)) {
+            throw new Exception(i18n("You do not have permission to edit this project."));
+        }
+
+        // Handle form submission
+        if (isset($_POST["submit"])) {
+            
+            // Populate project entity with form data
+            $project->setName($_POST["project_name"]);
+            $project->setDescription($_POST["project_description"]);
+
+            try {
+                // Validate Project object
+                $project->checkIsValidForUpdate();
+
+                // Save the project to the database
+                $this->projectMapper->save($project);
+                
+                // POST-REDIRECT-GET
+                // Set success flash message
+                $this->view->setFlash(sprintf(i18n("Project \"%s\" successfully updated."), $project->getName()));
+                // Redirect to updated project's detail page
+                $this->view->redirect(self::PROJECTS_CONTROLLER_NAME, self::PROJECTS_DETAIL_ACTION,"id=".$project->getId());
+
+            } catch (ValidationException $ex) {
+                // Get the errors from the exception
+                $errors = $ex->getErrors();
+                // Set errors to the view
+                $this->view->setVariable("errors", $errors);                                
+            }
+        }
+
+        $this->view->setVariable("project", $project);
+
+        $this->view->render(self::PROJECTS_CONTROLLER_NAME, self::PROJECTS_EDIT_ACTION);
+
     }
 
     public function delete() {
@@ -159,7 +286,7 @@ class ProjectsController extends BaseController {
         $this->projectMapper->delete($projectId);
 
         // POST-REDIRECT-GET 
-        $this->view->setFlash(i18n("Project \"%s\" successfully deleted.", $project->getName()));
+        $this->view->setFlash(sprintf(i18n("Project \"%s\" successfully deleted."), $project->getName()));
 
         $this->view->redirect(self::PROJECTS_CONTROLLER_NAME, self::PROJECTS_LIST_ACTION);
 
@@ -200,7 +327,7 @@ class ProjectsController extends BaseController {
         }
 
         // Verify that the current user is not already a member of the project
-        if ($this->projectMapper->isUserMember($usernameToAdd, $projectId)) {
+        if ($this->projectMapper->isUserMember($userToAdd->getUsername(), $projectId)) {
             throw new Exception(i18n("User is already a member of the project."));
         }
 

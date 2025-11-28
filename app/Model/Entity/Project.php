@@ -247,6 +247,45 @@ class Project {
         return ($completedTasks / $totalTasks) * 100;
     }
 
+    public function checkIsValidForCreate() {
+        $errors = array();
+
+        if (empty($this->name) || strlen($this->name) < 3) {
+            $errors["project_name"] = i18n("Project name must be at least 3 characters long.");
+        }
+
+        if (strlen(trim($this->ownerUsername)) == 0) {
+            $errors["owner_username"] = i18n("Owner username cannot be empty.");
+        }
+
+        if (strlen($this->description) > 500) {
+            $errors["project_description"] = i18n("Project description cannot exceed 500 characters.");
+        }
+
+        if (sizeof($errors) > 0) {
+            throw new ValidationException($errors, i18n("Project data is not valid.")   );
+        }
+
+    }
+
+    public function checkIsValidForUpdate() {
+        $errors = array();
+
+        if (empty($this->name) || strlen($this->name) < 3) {
+            $errors["project_name"] = i18n("Project name must be at least 3 characters long.");
+        }
+
+        if (strlen($this->description) > 500) {
+            $errors["project_description"] = i18n("Project description cannot exceed 500 characters.");
+        }
+
+        if (sizeof($errors) > 0) {
+            throw new ValidationException($errors, i18n("Project data is not valid.")   );
+        }
+
+    }
+
+
 }
 
 ?>

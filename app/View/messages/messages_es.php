@@ -87,12 +87,25 @@ $i18n_messages = array(
     "Mark as Done" => "Marcar como Completada",
     "All Tasks" => "Todas las Tareas",
     "Assigned to:" => "Asignada a:",
-
+    "Create Task" => "Crear Tarea",
     "Edit" => "Editar",
     "Delete" => "Eliminar",
-
+    "Remove" => "Eliminar",
+    "Remove Member" => "Eliminar Miembro",
     "Confirm" => "Confirmar",
+    "Add Member" => "Añadir Miembro",
+    "Enter username" => "Introduce el nombre de usuario",
+    "Enter the username of the member to add:" => "Introduce el nombre de usuario del miembro a añadir:",
+    "Delete Project" => "Eliminar Proyecto",
     "Are you sure you want to delete this project? All associated task will be deleted as well." => "¿Estás seguro de que deseas eliminar este proyecto? Todas las tareas asociadas también serán eliminadas.",
+    "Are you sure you want to remove %s from the project?" => "¿Estás seguro de que deseas eliminar a %s del proyecto?",
 
+    "New Project" => "Nuevo Proyecto",
+    "New Project Form" => "Formulario de Nuevo Proyecto",
+    "Enter the project name" => "Introduce el nombre del proyecto",
+    "project description" => "descripción del proyecto",
+    "Create New Project" => "Crear Nuevo Proyecto",
+    "Create Project" => "Crear Proyecto",
+    "Created on" => "Creado el",
 );
 ?>

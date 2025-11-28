@@ -4,7 +4,7 @@
 require_once __DIR__ . '/../../../../config/paths.php';
 
 $view = ViewManager::getInstance();
-$errors = $view->getVariable("errors");
+//$errors = $view->getVariable("errors");
 $currentUser = $view->getVariable("current_user");
 
 $projectInfo = $view->getVariable("project");
@@ -46,7 +46,7 @@ $todoTasks = $projectInfo->getTasksByStatus("to do");
                                             <i class="bi bi-archive-fill"></i>
                                             <span><?= strtoupper(i18n("Project Name")) ?></span>
                                         </div>
-                                        <div class="h5 fw-bold text-white text-center"><?= $projectInfo->getName() ?></div>
+                                        <div class="h5 fw-bold text-white ms-2"><?= $projectInfo->getName() ?></div>
                                     </div>
                                     <!-- Project Description -->
                                     <hr class="text-white">
@@ -203,7 +203,7 @@ $todoTasks = $projectInfo->getTasksByStatus("to do");
                                                     <button class="btn btn-danger fw-bold"
                                                         onclick="openConfirmModal({
                                                             title: '<?= i18n("Remove Member") ?>',
-                                                            message: '<?= i18n("Are you sure you want to remove " . $member . " from the project?") ?>',
+                                                            message: '<?= sprintf(i18n("Are you sure you want to remove %s from the project?"), $member) ?>',
                                                             action: 'index.php?controller=projects&amp;action=removeMember',
                                                             id: '<?= $projectInfo->getId() ?>',
                                                             inputs: [{
@@ -249,12 +249,16 @@ $todoTasks = $projectInfo->getTasksByStatus("to do");
                         <div class="collapse show" id="taskListSection">
                             <div class="card bg-secondary shadow-sm">
                                 <div class="card-body">
-                                    <!-- Create Task Button -->                                
-                                    <a class="btn btn-lg btn-light fw-bold mb-2" 
-                                        href="<?= "index.php?controller=tasks&amp;action=create&amp;projectId=".$projectInfo->getId() ?>"
-                                    >
-                                        <?= i18n("Create Task") ?>
-                                    </a>
+                    
+                                    <div class="d-flex justify-content-start mb-2">
+                                        <!-- Create Task Button -->                                                         
+                                        <a class="btn btn-lg btn-light fw-bold" 
+                                            href="<?= "index.php?controller=tasks&amp;action=create&amp;projectId=".$projectInfo->getId() ?>"
+                                        >
+                                            <i class="bi bi-pencil-square me-1"></i>
+                                            <?= i18n("Create Task") ?>
+                                        </a>
+                                    </div>
                                     
                                     <div class="row">
                                         <div class="col-md-6 your-tasks-container">
@@ -274,16 +278,16 @@ $todoTasks = $projectInfo->getTasksByStatus("to do");
                                             <!-- Your Tasks List -->
                                             <?php foreach($projectInfo->getTasksByUser($currentUser) as $task): ?>
                                                 <?php $status = $task->getStatus(); ?>
-                                                <div class="row-md-3 mb-2 task-item" data-entity="task" data-id="<?= $task->getId() ?>">
+                                                <div class="row-md-3 mb-2 task-item" data-entity="task" data-id="<?= $task->getId() ?>" data-status="<?= $status ?>">
                                                     <div class="card mb-2 <?= ("completed" === $status) ? 'bg-tg-primary' : 'bg-tg-secondary' ?> text-white">
                                                         <div class="card-body d-flex justify-content-between fw-bold p-2">
-                                                            <div class="col-4 my-auto ms-2">                                                                                                                    
-                                                                <i class="bi bi-clipboard-<?= ("completed" === $status) ? "check" : "x" ?>-fill me-1"></i>                                                           
+                                                            <div class="col-4 my-auto ms-2">                                                                                                                                                                                    
                                                                 <?= $task->getTitle() ?>                                                            
                                                             </div>
                                                             <div class="col-4 my-auto text-center">
                                                                     <div>
-                                                                        <?= strtoupper(i18n($status)) ?>
+                                                                    <i class="bi bi-clipboard2-<?= ("completed" === $status) ? "check" : "x" ?>-fill me-1"></i>                                                           
+                                                                    <?= strtoupper(i18n($status)) ?>
                                                                     </div>
                                                             </div>
                                                             <div class="col-3 my-auto text-center">
@@ -325,12 +329,12 @@ $todoTasks = $projectInfo->getTasksByStatus("to do");
                                                 <div class="row-md-3 mb-2 task-item" data-entity="task" data-id="<?= $task->getId() ?>" data-status="<?= $status ?>">
                                                     <div class="card mb-2 <?= ("completed" === $status) ? 'bg-tg-primary' : 'bg-tg-secondary' ?> text-white">
                                                         <div class="card-body d-flex justify-content-between fw-bold p-2">
-                                                            <div class="col-4 my-auto ms-2">                                                                                                                    
-                                                                <i class="bi bi-clipboard-<?= ("completed" === $status) ? "check" : "x" ?>-fill me-1"></i>                                                                
+                                                            <div class="col-4 my-auto ms-2">                                                                                                                                                                                                                                                
                                                                 <?= $task->getTitle() ?>                                                            
                                                             </div>
                                                             <div class="col-4 my-auto text-center">
                                                                     <div>
+                                                                        <i class="bi bi-clipboard2-<?= ("completed" === $status) ? "check" : "x" ?>-fill"></i>    
                                                                         <?= strtoupper(i18n($status)) ?>
                                                                     </div>
                                                             </div>
@@ -394,7 +398,7 @@ $view->setVariable("main-content-header", $projectInfo->getName());
     <button 
         class="btn btn-lg btn-danger fw-bold"
         onclick="openConfirmModal({
-            title: '<?= i18n("Delete project") ?>',
+            title: '<?= i18n("Delete Project") ?>',
             message: '<?= i18n("Are you sure you want to delete this project? All associated task will be deleted as well.") ?>',
             action: 'index.php?controller=projects&amp;action=delete',
             id: '<?= $projectInfo->getId() ?>',
