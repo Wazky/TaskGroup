@@ -253,7 +253,7 @@ $todoTasks = $projectInfo->getTasksByStatus("to do");
                                     <div class="d-flex justify-content-start mb-2">
                                         <!-- Create Task Button -->                                                         
                                         <a class="btn btn-lg btn-light fw-bold" 
-                                            href="<?= "index.php?controller=tasks&amp;action=create&amp;projectId=".$projectInfo->getId() ?>"
+                                            href="<?= "index.php?controller=tasks&amp;action=create&amp;project_id=".$projectInfo->getId() ?>"
                                         >
                                             <i class="bi bi-pencil-square me-1"></i>
                                             <?= i18n("Create Task") ?>
@@ -292,11 +292,20 @@ $todoTasks = $projectInfo->getTasksByStatus("to do");
                                                             </div>
                                                             <div class="col-3 my-auto text-center">
                                                                 <div>
-                                                                    <?php if("to do" ===$status ): ?>
-                                                                        <a class="btn btn-light fw-bold" href="<?= "index.php?controller=tasks&amp;action=updateStatus&amp;id=" . $task->getId() ?>">
+                                                                    <?php if("to do" === $status ): ?>
+                                                                        <button class="btn btn-light fw-bold"
+                                                                            onclick="openConfirmModal({
+                                                                                title: '<?= i18n("Confirm Mark as Done") ?>',
+                                                                                message: '<?= sprintf(i18n("Are you sure you want to mark the task %s as done?"), $task->getTitle()) ?>',
+                                                                                action: '<?= "index.php?controller=tasks&amp;action=markAsCompleted" ?>',
+                                                                                id: '<?= $task->getId() ?>',
+                                                                                confirmButtonText: '<?= i18n("Mark as Done") ?>',
+                                                                                confirmButtonClass: 'bg-tg-primary text-light'
+                                                                            })"
+                                                                        >
                                                                             <i class="bi bi-check2-circle me-1"></i>
                                                                             <?= i18n("Mark as Done") ?>
-                                                                        </a>
+                                                                        </button>
                                                                     <?php endif; ?>
                                                                 </div>
 

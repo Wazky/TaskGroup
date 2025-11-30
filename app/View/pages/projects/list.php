@@ -33,49 +33,57 @@ $memberProjects = $view->getVariable("memberProjects");
         <div class="collapse show" id="ownedProjectList">
             <hr class="text-white border-2"/>
             <div class="col mt-4">
-                <?php foreach($ownedProjects as $index => $project): ?> 
-                    <div class="row-md-3 mb-2" data-entity="project" data-id="<?= $project->getId() ?>">
-                        <div class="card <?= ($index % 2 == 0) ? 'bg-tg-secondary' : 'bg-tg-primary' ?> text-white">
-                            <div class="card-body d-flex justify-content-between">
-                                <div class="col-5 my-auto">
-                                    <h3 class="h3 fw-bold"><?= $project->getName() ?></h3>                                
+                <?php if (isset($ownedProjects) && count($ownedProjects) > 0): ?>
+                    <?php foreach($ownedProjects as $index => $project): ?> 
+                        <div class="row-md-3 mb-2" data-entity="project" data-id="<?= $project->getId() ?>">
+                            <div class="card <?= ($index % 2 == 0) ? 'bg-tg-secondary' : 'bg-tg-primary' ?> text-white">
+                                <div class="card-body d-flex justify-content-between">
+                                    <div class="col-5 my-auto">
+                                        <h3 class="h3 fw-bold"><?= $project->getName() ?></h3>                                
+                                    </div>
+                                    <div class="col-4 my-auto align-left">
+                                        <h3 class="h6 ms-3 fst-italic"><?= (strlen($project->getDescription()) > 60) ? substr($project->getDescription(), 0, 60) . "..." : $project->getDescription() ?></h3>    
+                                        
+                                    </div>                      
+                                    <div class ="col-1 text-center my-auto">
+                                        <h3 class="h4 fw-bold"><?= $project->getMemberCount() ?></h3>
+                                        <small><?= i18n("Members") ?></small>
+                                    </div>
+                                    <div class ="col-1 text-center my-auto">
+                                        <h3 class="h4 fw-bold"><?= $project->getTaskCount() ?></h3>
+                                        <small><?= i18n("Tasks") ?></small>
+                                    </div>                                         
+                                    <div class="col-1 my-auto">
+                                        <div class="d-flex flex-column gap-2">                                                                                                                                  
+                                            <a href="<?= "index.php?controller=projects&amp;action=edit&amp;id=" . $project->getId() ?>" class="btn btn-light "><i class="bi bi-pencil-fill"></i></a>
+                                            <button class="btn btn-light"
+                                                onclick="openConfirmModal({
+                                                    title: '<?= i18n("Delete Project") ?>',
+                                                    message: '<?= i18n("Are you sure you want to delete this project? All associated task will be deleted as well.") ?>',
+                                                    action: 'index.php?controller=projects&amp;action=delete',
+                                                    id: <?= $project->getId() ?>,
+                                                    confirmButtonText: '<?= i18n("Delete") ?>',
+                                                    confirmButtonClass: 'btn-danger'    
+                                                })"
+                                            >
+                                                <i class="bi bi-trash-fill"></i>                                                
+                                            </button>
+                                        </div>                                
+                                    </div>                                                  
                                 </div>
-                                <div class="col-4 my-auto align-left">
-                                    <h3 class="h6 ms-3 fst-italic"><?= (strlen($project->getDescription()) > 60) ? substr($project->getDescription(), 0, 60) . "..." : $project->getDescription() ?></h3>    
-                                    
-                                </div>                      
-                                <div class ="col-1 text-center my-auto">
-                                    <h3 class="h4 fw-bold"><?= $project->getMemberCount() ?></h3>
-                                    <small><?= i18n("Members") ?></small>
+                                <div class="card-footer text-end">
+                                    <?= i18n("Created on") . ": " . $project->getCreatedAtFormatted() ?>
                                 </div>
-                                <div class ="col-1 text-center my-auto">
-                                    <h3 class="h4 fw-bold"><?= $project->getTaskCount() ?></h3>
-                                    <small><?= i18n("Tasks") ?></small>
-                                </div>                                         
-                                <div class="col-1 my-auto">
-                                    <div class="d-flex flex-column gap-2">                                                                                                                                  
-                                                <a href="<?= "index.php?controller=projects&amp;action=edit&amp;id=" . $project->getId() ?>" class="btn btn-light "><i class="bi bi-pencil-fill"></i></a>
-                                                <button class="btn btn-light"
-                                                    onclick="openConfirmModal({
-                                                        title: '<?= i18n("Delete Project") ?>',
-                                                        message: '<?= i18n("Are you sure you want to delete this project? All associated task will be deleted as well.") ?>',
-                                                        action: 'index.php?controller=projects&amp;action=delete',
-                                                        id: <?= $project->getId() ?>,
-                                                        confirmButtonText: '<?= i18n("Delete") ?>',
-                                                        confirmButtonClass: 'btn-danger'    
-                                                    })"
-                                                >
-                                                    <i class="bi bi-trash-fill"></i>                                                
-                                                </button>
-                                    </div>                                
-                                </div>                                                  
-                            </div>
-                            <div class="card-footer text-end">
-                                <?= i18n("Created on") . ": " . $project->getCreatedAtFormatted() ?>
-                            </div>
-                        </div>                                        
+                            </div>                                        
+                        </div>
+                    <?php endforeach; ?>
+                <?php else:?>    
+                    <div class="alert alert-info text-center" role="alert">
+                        <i class="bi bi-info-circle-fill me-1"></i>
+                        <?= i18n("You do not own any projects yet. Create a new project to get started!") ?>
                     </div>
-                <?php endforeach; ?>
+                <?php endif;?>  
+
             </div>
         </div>
     </div>                   
@@ -92,30 +100,37 @@ $memberProjects = $view->getVariable("memberProjects");
         <div class="collapse show" id="memberOfProjectList">
             <hr class="text-white border-2"/>
             <div class="row mt-4">
-                <?php foreach($memberProjects as $index => $project): ?>
-                    <div class="row-md-3 mb-2" data-entity="project" data-id="<?= $project->getId() ?>">
-                        <div class="card <?= ($index % 2 == 0) ? 'bg-tg-secondary' : 'bg-tg-primary' ?> text-white">
-                            <div class="card-body d-flex justify-content-between">
-                                <div class="col-5 my-auto">
-                                    <h3 class="h3 fw-bold"><?= $project->getName() ?></h3>                                
+                <?php if (isset($memberProjects) && count($memberProjects) > 0): ?>
+                    <?php foreach($memberProjects as $index => $project): ?>
+                        <div class="row-md-3 mb-2" data-entity="project" data-id="<?= $project->getId() ?>">
+                            <div class="card <?= ($index % 2 == 0) ? 'bg-tg-secondary' : 'bg-tg-primary' ?> text-white">
+                                <div class="card-body d-flex justify-content-between">
+                                    <div class="col-5 my-auto">
+                                        <h3 class="h3 fw-bold"><?= $project->getName() ?></h3>                                
+                                    </div>
+                                    <div class="col-4 my-auto align-left">
+                                        <h3 class="h6 ms-3 fst-italic"><?= (strlen($project->getDescription()) > 60) ? substr($project->getDescription(), 0, 60) . "..." : $project->getDescription() ?></h3>    
+                                        
+                                    </div>                      
+                                    <div class ="col-1 text-center my-auto">
+                                        <h3 class="h4 fw-bold"><?= $project->getMemberCount() ?></h3>
+                                        <small> <?= i18n("Members") ?></small>
+                                    </div>
+                                    <div class ="col-1 text-center my-auto">
+                                        <h3 class="h4 fw-bold"><?= $project->getTaskCount() ?></h3>
+                                        <small><?= i18n("Tasks") ?></small>
+                                    </div>                                                                                           
                                 </div>
-                                <div class="col-4 my-auto align-left">
-                                    <h3 class="h6 ms-3 fst-italic"><?= (strlen($project->getDescription()) > 60) ? substr($project->getDescription(), 0, 60) . "..." : $project->getDescription() ?></h3>    
-                                    
-                                </div>                      
-                                <div class ="col-1 text-center my-auto">
-                                    <h3 class="h4 fw-bold"><?= $project->getMemberCount() ?></h3>
-                                    <small> <?= i18n("Members") ?></small>
-                                </div>
-                                <div class ="col-1 text-center my-auto">
-                                    <h3 class="h4 fw-bold"><?= $project->getTaskCount() ?></h3>
-                                    <small><?= i18n("Tasks") ?></small>
-                                </div>                                                                                           
-                            </div>
-                        </div>               
-                        </a> 
+                            </div>               
+                            </a> 
+                        </div>
+                    <?php endforeach; ?>
+                <?php else:?>    
+                    <div class="alert alert-info text-center" role="alert">
+                        <i class="bi bi-info-circle-fill me-1"></i>
+                        <?= i18n("You are not a member of any projects yet. Join a project to get started!") ?>
                     </div>
-                <?php endforeach; ?>
+                <?php endif; ?>
             </div>
         </div>
     </div>    

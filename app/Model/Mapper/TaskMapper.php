@@ -74,7 +74,7 @@ class TaskMapper {
      * @return Task|null The Task entity if found, null otherwise
      */
     public function findById($taskId) {
-        $stmt = $this->db->prepare("SELECT * FROM tasks WHERE task_id");
+        $stmt = $this->db->prepare("SELECT * FROM tasks WHERE task_id = ?");
         $stmt->execute(array($taskId));
 
         $row = $stmt->fetch(PDO::FETCH_ASSOC);

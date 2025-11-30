@@ -16,6 +16,7 @@ $members = $projectInfo->getMembers();
             <!-- Edit Project Form -->
             <form class="w-50" action="index.php?controller=projects&amp;action=edit&amp;id=<?= $projectInfo->getId() ?>" method="POST">
 
+                <!-- Hidden Project ID -->
                 <input type="hidden" name="project_id" value="<?= $projectInfo->getId() ?>">
 
                 <!--  Project Info Header -->
@@ -43,6 +44,14 @@ $members = $projectInfo->getMembers();
                                 </div>
                                 <input type="text" name="project_name" class="form-control bg-light border w-50"
                                     value="<?= htmlspecialchars($projectInfo->getName()) ?>" required>                                  
+                                
+                                <!-- Project Name Error Message -->
+                                <?php if(isset($errors["project_name"])): ?>
+                                    <div class="invalid-feedback d-block">
+                                        <i class="bi bi-exclamation-triangle-fill me-1"></i>
+                                        <?= htmlspecialchars($errors["project_name"]) ?>
+                                    </div>                                    
+                                <?php endif; ?>
                             </div>
                             
                             <hr class="text-white">
@@ -53,7 +62,15 @@ $members = $projectInfo->getMembers();
                                     <i class="bi bi-pencil-fill"></i>
                                     <span><?= strtoupper(i18n("Description")) ?></span>
                                 </div>
-                                <textarea name="project_description" class="form-control bg-light w-50"><?= htmlspecialchars($projectInfo->getDescription()) ?></textarea>                                
+                                <textarea name="project_description" class="form-control bg-light w-50"><?= htmlspecialchars($projectInfo->getDescription()) ?></textarea>
+                                
+                                <!-- Project Description Error Message -->
+                                <?php if(isset($errors["project_description"])): ?>
+                                    <div class="invalid-feedback d-block">
+                                        <i class="bi bi-exclamation-triangle-fill me-1"></i>
+                                        <?= htmlspecialchars($errors["project_description"]) ?>
+                                    </div>
+                                <?php endif; ?>
                             </div>
 
                             <hr class="text-white">

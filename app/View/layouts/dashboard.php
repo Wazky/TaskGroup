@@ -8,6 +8,10 @@ if (!defined('BASE_URL')) {
 $view = ViewManager::getInstance();
 $errors = $view->getVariable("errors");
 $currentUser = $view->getVariable("current_user");
+
+$flashMessage = $view->popFlash();
+$flashType = $view->getVariable("flash-type");
+$flashIcon = $view->getVariable("flash-icon");
 ?>
 
 <!DOCTYPE html>
@@ -31,6 +35,8 @@ $currentUser = $view->getVariable("current_user");
     <!-- Importar scripts -->
     <script type="module" src="<?= JS_PATH ?>/utils.js"></script>
     <script src="<?= JS_PATH ?>/confirmActionModal.js"></script>
+    <script src="<?= JS_PATH ?>/closableAlert.js"></script>
+
     <?= $view->getFragment("javascript"); ?>
 
 </head>
@@ -66,14 +72,14 @@ $currentUser = $view->getVariable("current_user");
                             </div>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end bg-dark">
-                            <li><a class="dropdown-item text-light" href="<?= BASE_URL ?>/profile">
+                            <li><a class="dropdown-item text-light" href="<?= "index.php?controller=users&amp;action=detail&amp;id=" . urlencode($currentUser) ?>">
                                 <i class="bi bi-person me-2"></i><?= $currentUser ?>
                             </a></li>
                             <li><a class="dropdown-item text-light" href="<?= BASE_URL ?>/settings">
                                 <i class="bi bi-gear me-2"></i>Configuración
                             </a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item text-danger" href="<?= BASE_URL ?>/logout">
+                            <li><a class="dropdown-item text-danger" href="<?= "index.php?controller=auth&amp;action=logout" ?>">
                                 <i class="bi bi-box-arrow-right me-2"></i>Cerrar Sesión
                             </a></li>
                         </ul>
@@ -124,19 +130,17 @@ $currentUser = $view->getVariable("current_user");
                     </div>
                     
 
-                    <?php if(isset($errors["general"])): ?>
-                        <div class="alert alert-danger">                            
-                            <p class="text-white h1">HUBO ERRORES</p>
-                            <p class="text-white h1"><?= $errors["general"] ?></p>                            
-                        </div>
+                    <!-- Flash Messages -->
+                    <?php if ($flashMessage != null): ?>
+                        <div class="alert <?= ($flashType != null) ? $flashType : 'alert-info' ?> alert-dismissible fade show" role="alert"
+                            id="flash-message" data-auto-dismiss="4000">
+                            <i class="bi <?= ($flashIcon != null) ? $flashIcon : 'bi-info-circle' ?> me-1"></i>
+                            <?= $flashMessage ?>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                            </button>
+                        </div>                    
                     <?php endif; ?>
-
-                    <div class="<?= $view->getVariable("flash-type") ?>">
-                        <p class="text-white h1"><?= $view->popFlash() ?></p>
-                    </div>
-
                     
-
                     <!-- Page Content -->
                     <div class="page-content">
                         <!-- ===== CONTENIDO ESPECÍFICO DE CADA PÁGINA AQUÍ ===== -->

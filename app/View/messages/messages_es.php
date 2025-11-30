@@ -99,6 +99,9 @@ $i18n_messages = array(
     "Delete Project" => "Eliminar Proyecto",
     "Are you sure you want to delete this project? All associated task will be deleted as well." => "¿Estás seguro de que deseas eliminar este proyecto? Todas las tareas asociadas también serán eliminadas.",
     "Are you sure you want to remove %s from the project?" => "¿Estás seguro de que deseas eliminar a %s del proyecto?",
+    "Are you sure you want to mark the task %s as done?" => "¿Estás seguro de que deseas marcar la tarea %s como resuelta?",
+    "Mark as Done" => "Marcar como Resuelta",
+    "Confirm Mark as Done" => "Confirmar Marcado como Resuelta",
 
     "New Project" => "Nuevo Proyecto",
     "New Project Form" => "Formulario de Nuevo Proyecto",
@@ -107,5 +110,37 @@ $i18n_messages = array(
     "Create New Project" => "Crear Nuevo Proyecto",
     "Create Project" => "Crear Proyecto",
     "Created on" => "Creado el",
+
+    "New Task Form" => "Formulario de Nueva Tarea",
+    "Task Name" => "Nombre de la Tarea",
+    "Enter the task title" => "Introduce el título de la tarea",
+    "task description" => "descripción de la tarea",
+    "Task Status" => "Estado de la Tarea",
+    "Assigned User" => "Usuario Asignado",
+
+    "Task Detail" => "Detalle de la Tarea",
+    "Title" => "Título",
+    "Status" => "Estado",
+    "Assigned User" => "Usuario Asignado",
+    "Created At " => "Creado el ",
+    "Modified At " => "Modificado el ",
+    "Confirm Mark as Done" => "Confirmar Marcado como Resuelta",
+    "Are you sure you want to mark the task %s as done?" => "¿Estás seguro de que deseas marcar la tarea %s como resuelta?",
+    "Mark as Done" => "Marcar como Resuelta",
+    "Confirm Delete Task" => "Confirmar Eliminación de Tarea",
+    "Are you sure you want to delete the task %s? This action cannot be undone." => "¿Estás seguro de que deseas eliminar la tarea %s? Esta acción no se puede deshacer.",
+    "Delete Task" => "Eliminar Tarea",
+    "Edit Task" => "Editar Tarea",
+
+    "The following members do not exist: %s" => "Los siguientes miembros no existen: %s",
+    "Project \"%s\" successfully created." => "Proyecto \"%s\" creado con éxito.",
+    "Invalid data provided." => "Datos proporcionados inválidos.",
+    "Project ID is required to access a project detail." => "Se requiere el ID del proyecto para acceder al detalle de un proyecto.",
+    "You do not have permission to access this project." => "No tienes permiso para acceder a este proyecto.",
+    "No project found with the given ID." => "No se encontró ningún proyecto con el ID proporcionado.",
+    
+
+
+
 );
 ?>

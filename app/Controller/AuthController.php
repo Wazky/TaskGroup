@@ -135,6 +135,20 @@ class AuthController extends BaseController {
         // Render the register view: View/pages/auth/register.php (also for GET requests)
         $this->view->render(self::AUTH_CONTROLLER_NAME, self::AUTH_REGISTER_ACTION);
     }
+
+    /**
+     * Action to logout
+     * 
+     * Logs out the current user by destroying the session
+     * and redirects to the login page
+     */
+    public function logout() {
+        // Clear the current user from the session
+        session_destroy();
+
+        // Redirect to the login page
+        $this->view->redirect(self::AUTH_CONTROLLER_NAME, self::AUTH_LOGIN_ACTION);
+    }
     
 }
 

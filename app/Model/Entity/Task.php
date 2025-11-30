@@ -116,6 +116,35 @@ class Task {
         return !is_null($this->assignedUsername);
     }
 
+    public function checkIsValid() {
+        $errors = array();
+
+        if (empty($this->title)) {
+            $errors["task_name"] = i18n("Task name is required.");
+        } elseif (strlen($this->title) < 3) {
+            $errors["task_name"] = i18n("Task name must be at least 3 characters long.");
+        } elseif (strlen($this->title) > 255) {
+            $errors["task_name"] = i18n("Task name must not exceed 255 characters.");
+        }
+
+        if (isset($this->description) && strlen($this->description) < 5) {
+            $errors["task_description"] = i18n("Task description must be at least 5 characters long.");
+        } elseif (isset($this->description) && strlen($this->description) > 1000) {
+            $errors["task_description"] = i18n("Task description must not exceed 1000 characters.");
+        }
+
+        if ($this->status !== self::STATUS_TODO && $this->status !== self::STATUS_DONE) {
+            $errors["task_status"] = i18n("Invalid task status.");
+        }
+
+        if (empty($this->assignedUsername)) {
+            $errors["assigned_user"] = i18n("Assigned user is required.");
+        }
+
+        if (!empty($errors)) {
+            throw new ValidationException($errors, i18n("Task data is not valid."));
+        }
+    }
 
 
 }

@@ -13,3 +13,4 @@ export function getCSSVariableValue(variableName, defaultValue = '') {
 }
 
 window.getCSSVariableValue = getCSSVariableValue;
+

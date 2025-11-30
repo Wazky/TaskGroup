@@ -289,6 +289,19 @@ class ProjectMapper {
         return ($stmt->fetchColumn() > 0);
     }
 
+    public function isUserOwner($username, $projectId) {
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM projects WHERE project_id = ? AND project_owner = ?");
+        $stmt->execute(array($projectId, $username));
+
+        return ($stmt->fetchColumn() > 0);
+    }
+
+    /**
+     * Converts a database row to a Project entity     
+     * 
+     * @param array $row The database row
+     * @return Project The Project entity
+     */
     private function rowToEntity($row) {
         // Create project entity
         $project = new Project();

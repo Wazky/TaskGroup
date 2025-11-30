@@ -123,15 +123,13 @@ class ProjectsController extends BaseController {
 
                 // POST-REDIRECT-GET
                 // Set success flash message
-                $this->view->setFlash(sprintf(i18n("Project \"%s\" successfully created."), $project->getName()));
+                $this->prepareAlert(sprintf(i18n("Project \"%s\" successfully created."), $project->getName()), "alert-success", "bi-check-circle-fill");
                 // Redirect to created project's detail page
                 $this->view->redirect(self::PROJECTS_CONTROLLER_NAME, self::PROJECTS_DETAIL_ACTION,"id=".$project->getId());
 
-            } catch (ValidationException $ex) {
-                // Get the errors from the exception
-                $errors = $ex->getErrors();
-                // Set errors to the view
-                $this->view->setVariable("errors", $errors);                
+            } catch (ValidationException $ex) {            
+                $this->view->setVariable("errors", $ex->getErrors());
+                $this->prepareAlert(i18n("Invalid data provided."), "alert-danger", "bi-exclamation-triangle-fill");                
             }
         }
 
@@ -164,7 +162,9 @@ class ProjectsController extends BaseController {
 
         // Check if project id is provided
         if (!isset($_GET["id"])) {
-            $this->view->setFlash(i18n("Project ID is required."));
+            // No project id provided
+            $this->prepareAlert(i18n("Project ID is required to access a project detail."), "alert-info", "bi-info-circle");
+            
             $this->view->redirect(self::PROJECTS_CONTROLLER_NAME, self::PROJECTS_LIST_ACTION);
         }
 
@@ -173,20 +173,22 @@ class ProjectsController extends BaseController {
 
         // Check if the current user is member of the project (Independent of project existence)
         if (!$this->projectMapper->isUserMember($this->currentUser->getUsername(), $projectId)) {
-            $errors = array();
-            $errors["general"] = i18n("You do not have permission to access this project.");            
-            $this->view->setVariable("errors", $errors);
-            // La variable no aplica al usar redirect (mirar de solucionar)
+            // No permission to access the project
+            $this->prepareAlert(i18n("You do not have permission to access this project."), "alert-danger", "bi-exclamation-triangle-fill");
 
-            $this->view->setFlash(i18n("MSG BY FLASH"));
-            $this->view->setVariable("flash-type", "alert alert-danger", true);
-
-            $this->view->redirect(self::PROJECTS_CONTROLLER_NAME, self::PROJECTS_LIST_ACTION);
-            return;
+            $this->view->redirect(self::PROJECTS_CONTROLLER_NAME, self::PROJECTS_LIST_ACTION);        
         }
 
         // Get basic project info
         $project = $this->projectMapper->findById($projectId);
+
+        // Verify that the project exists
+        if ($project == null) {
+            // No project found with the given ID
+            $this->prepareAlert(i18n("No project found with the given ID."), "alert-info", "bi-info-circle");            
+            
+            $this->view->redirect(self::PROJECTS_CONTROLLER_NAME, self::PROJECTS_LIST_ACTION);            
+        }
 
         // Get info of project members
         $members = $this->projectMapper->getProjectMembers($projectId);
@@ -209,7 +211,10 @@ class ProjectsController extends BaseController {
 
         // Check if project id is provided
         if (!isset($_REQUEST["id"])) {
-            throw new Exception(i18n("Project ID is required."));
+            // No project id provided
+            $this->prepareAlert(i18n("Project ID is required."), "alert-info", "bi-info-circle");
+
+            $this->view->redirect(self::PROJECTS_CONTROLLER_NAME, self::PROJECTS_LIST_ACTION);
         }
 
         // Obtain project from database
@@ -218,12 +223,18 @@ class ProjectsController extends BaseController {
 
         // Verify that the project exists
         if ($project == null) {
-            throw new Exception(i18n("No project found with the given ID."));
+            // No project found with the given ID
+            $this->prepareAlert(i18n("No project found with the given ID."), "alert-info", "bi-info-circle");
+            
+            $this->view->redirect(self::PROJECTS_CONTROLLER_NAME, self::PROJECTS_LIST_ACTION);
         }
 
         // Verify that the current user is member of the project
         if (!$this->projectMapper->isUserMember($this->currentUser->getUsername(), $projectId)) {
-            throw new Exception(i18n("You do not have permission to edit this project."));
+            // No permission to edit the project
+            $this->prepareAlert(i18n("You do not have permission to edit this project."), "alert-danger", "bi-exclamation-triangle-fill");
+            
+            $this->view->redirect(self::PROJECTS_CONTROLLER_NAME, self::PROJECTS_LIST_ACTION);
         }
 
         // Handle form submission
@@ -242,7 +253,7 @@ class ProjectsController extends BaseController {
                 
                 // POST-REDIRECT-GET
                 // Set success flash message
-                $this->view->setFlash(sprintf(i18n("Project \"%s\" successfully updated."), $project->getName()));
+                $this->prepareAlert(sprintf(i18n("Project \"%s\" successfully updated."), $project->getName()), "alert-success", "bi-check-circle-fill");                
                 // Redirect to updated project's detail page
                 $this->view->redirect(self::PROJECTS_CONTROLLER_NAME, self::PROJECTS_DETAIL_ACTION,"id=".$project->getId());
 
@@ -250,12 +261,14 @@ class ProjectsController extends BaseController {
                 // Get the errors from the exception
                 $errors = $ex->getErrors();
                 // Set errors to the view
-                $this->view->setVariable("errors", $errors);                                
+                $this->view->setVariable("errors", $errors);
+                $this->prepareAlert(i18n("Invalid data provided."), "alert-danger", "bi-exclamation-triangle-fill");                                
             }
         }
 
+        // Set project variable for the view
         $this->view->setVariable("project", $project);
-
+        // Render the edit view
         $this->view->render(self::PROJECTS_CONTROLLER_NAME, self::PROJECTS_EDIT_ACTION);
 
     }
@@ -266,7 +279,10 @@ class ProjectsController extends BaseController {
 
         // Check if project id is provided
         if (!isset($_POST["id"])) {
-            throw new Exception(i18n("Project ID is required."));
+            // No project id provided
+            $this->prepareAlert(i18n("Project ID is required to delete a project."), "alert-info", "bi-info-circle");
+
+            $this->view->redirect(self::PROJECTS_CONTROLLER_NAME, self::PROJECTS_LIST_ACTION);
         }
 
         // Obtain project from database
@@ -275,18 +291,24 @@ class ProjectsController extends BaseController {
 
         // Verify that the project exists
         if ($project == null) {
-            throw new Exception(i18n("No project found with the given ID."));
+            // No project found with the given ID
+            $this->prepareAlert(i18n("No project found with the given ID."), "alert-info", "bi-info-circle");
+
+            $this->view->redirect(self::PROJECTS_CONTROLLER_NAME, self::PROJECTS_LIST_ACTION);
         }
 
         if ($project->getOwnerUsername() !== $this->currentUser->getUsername()) {
-            throw new Exception(i18n("You do not have permission to delete this project."));
+            // No permission to delete the project
+            $this->prepareAlert(i18n("You do not have permission to delete this project."), "alert-danger", "bi-exclamation-triangle-fill");
+
+            $this->view->redirect(self::PROJECTS_CONTROLLER_NAME, self::PROJECTS_LIST_ACTION);
         }
 
         // Delete the project
         $this->projectMapper->delete($projectId);
 
         // POST-REDIRECT-GET 
-        $this->view->setFlash(sprintf(i18n("Project \"%s\" successfully deleted."), $project->getName()));
+        $this->prepareAlert(sprintf(i18n("Project \"%s\" successfully deleted."), $project->getName()), "alert-success", "bi-check-circle-fill");
 
         $this->view->redirect(self::PROJECTS_CONTROLLER_NAME, self::PROJECTS_LIST_ACTION);
 
@@ -296,9 +318,11 @@ class ProjectsController extends BaseController {
         // Check authentication
         $this->requireAuthentication();
 
-        if (!isset($_POST["id"]) || !isset($_POST["username"])) {
-            throw new Exception(i18n("Project ID and Username are required."));
+        // Check if project id or username are provided
+        if (!isset($_POST["id"]) || !isset($_POST["username"])) {            
+            $this->prepareAlert(i18n("Project ID and Username are required."), "alert-danger", "bi-exclamation-triangle-fill");
 
+            $this->view->redirect(self::PROJECTS_CONTROLLER_NAME, self::PROJECTS_LIST_ACTION);
         }
 
         // Obtain project from database
@@ -307,35 +331,47 @@ class ProjectsController extends BaseController {
 
         // Verify that the project exists
         if ($project == null) {
-            throw new Exception(i18n("No project found with the given ID."));
+            $this->prepareAlert(i18n("No project found with the given ID."), "alert-info", "bi-info-circle");
+
+            $this->view->redirect(self::PROJECTS_CONTROLLER_NAME, self::PROJECTS_LIST_ACTION);
         }
 
         $usernameToAdd = $_POST["username"];
+        
         // Verify that username is provided
         if ($usernameToAdd == null) {
-            throw new Exception(i18n("Username is required."));
+            $this->prepareAlert(i18n("Username is required."), "alert-danger", "bi-exclamation-triangle-fill");
+
+            $this->view->redirect(self::PROJECTS_CONTROLLER_NAME, self::PROJECTS_LIST_ACTION);
         }
+
         // Verify that the current user is a member of the project
         if (!$this->projectMapper->isUserMember($this->currentUser->getUsername(), $projectId)) {
-            throw new Exception(i18n("You do not have permission to add members to this project."));
+            $this->prepareAlert(i18n("You do not have permission to add members to this project."), "alert-danger", "bi-exclamation-triangle-fill");
+            
+            $this->view->redirect(self::PROJECTS_CONTROLLER_NAME, self::PROJECTS_LIST_ACTION);
         }
         
         // Verify that the user to add exists
         $userToAdd = $this->userMapper->getUser($usernameToAdd);
         if ($userToAdd == null) {
-            throw new Exception(i18n("No user found with the given username/email."));
+            $this->prepareAlert(i18n("No user found with the given username/email."), "alert-info", "bi-info-circle");
+
+            $this->view->redirect(self::PROJECTS_CONTROLLER_NAME, self::PROJECTS_LIST_ACTION);
         }
 
         // Verify that the current user is not already a member of the project
         if ($this->projectMapper->isUserMember($userToAdd->getUsername(), $projectId)) {
-            throw new Exception(i18n("User is already a member of the project."));
+            $this->prepareAlert(i18n("User is already a member of the project."), "alert-info", "bi-info-circle");
+
+            $this->view->redirect(self::PROJECTS_CONTROLLER_NAME, self::PROJECTS_LIST_ACTION);
         }
 
         // Add the member to the project
         $this->projectMapper->addMember($userToAdd->getUsername(), $projectId);
 
         // POST-REDIRECT-GET
-        $this->view->setFlash(sprintf(i18n("User \"%s\" successfully added to project \"%s\"."), $userToAdd->getUsername(), $project->getName()));
+        $this->prepareAlert(sprintf(i18n("User \"%s\" successfully added to project \"%s\"."), $userToAdd->getUsername(), $project->getName()), "alert-success", "bi-check-circle-fill");
 
         $this->view->redirect(self::PROJECTS_CONTROLLER_NAME, self::PROJECTS_DETAIL_ACTION, "id=" . $projectId);
     }
@@ -345,7 +381,9 @@ class ProjectsController extends BaseController {
         $this->requireAuthentication();
 
         if (!isset($_POST["id"]) || !isset($_POST["username"])) {
-            throw new Exception(i18n("Project ID and Username are required."));
+            $this->prepareAlert(i18n("Project ID and Username are required."), "alert-danger", "bi-exclamation-triangle-fill");
+            
+            $this->view->redirect(self::PROJECTS_CONTROLLER_NAME, self::PROJECTS_LIST_ACTION);
         }
 
         // Obtain project from database
@@ -354,44 +392,62 @@ class ProjectsController extends BaseController {
 
         // Verify that the project exists
         if ($project == null) {
-            throw new Exception(i18n("No project found with the given ID."));
+            $this->prepareAlert(i18n("No project found with the given ID."), "alert-info", "bi-info-circle");
+
+            $this->view->redirect(self::PROJECTS_CONTROLLER_NAME, self::PROJECTS_LIST_ACTION);
         }
 
         $usernameToRemove = $_POST["username"];
         // Verify that username is provided 
         if ($usernameToRemove == null) {
-            throw new Exception(i18n("Username is required."));
+            $this->prepareAlert(i18n("Username is required."), "alert-danger", "bi-exclamation-triangle-fill");
+
+            $this->view->redirect(self::PROJECTS_CONTROLLER_NAME, self::PROJECTS_LIST_ACTION);
         }
 
         // Verify that the current user is the owner of the project
         if ($project->getOwnerUsername()  !== $this->currentUser->getUsername()) {
-            throw new Exception(i18n("You do not have permission to remove members from this project."));
+            $this->prepareAlert(i18n("You do not have permission to remove members from this project."), "alert-danger", "bi-exclamation-triangle-fill");
+
+            $this->view->redirect(self::PROJECTS_CONTROLLER_NAME, self::PROJECTS_LIST_ACTION);
         }
 
 
         // Verify that the user to remove exists
         $userToRemove = $this->userMapper->getUser($usernameToRemove);
         if ($userToRemove == null) {
-            throw new Exception(i18n("No user found with the given username/email."));
+            $this->prepareAlert(i18n("No user found with the given username/email."), "alert-info", "bi-info-circle");
+
+            $this->view->redirect(self::PROJECTS_CONTROLLER_NAME, self::PROJECTS_LIST_ACTION);
         }
 
         // Verify that the user to remove is a member of the project
         if (!$this->projectMapper->isUserMember($usernameToRemove, $projectId)) {
-            throw new Exception(i18n("User is not a member of the project."));
+            $this->prepareAlert(i18n("User is not a member of the project."), "alert-info", "bi-info-circle");
+
+            $this->view->redirect(self::PROJECTS_CONTROLLER_NAME, self::PROJECTS_LIST_ACTION);
         }
 
         // Prevent removing the owner from the project
         if ($usernameToRemove === $project->getOwnerUsername()) {
-            throw new Exception(i18n("Cannot remove the owner from the project."));
+            $this->prepareAlert(i18n("Cannot remove the owner from the project."), "alert-danger", "bi-exclamation-triangle-fill");
+
+            $this->view->redirect(self::PROJECTS_CONTROLLER_NAME, self::PROJECTS_LIST_ACTION);
         }
 
         // Remove the member from the project
         $this->projectMapper->removeMember($usernameToRemove, $projectId);
 
         // POST-REDIRECT-GET
-        $this->view->setFlash(sprintf(i18n("User \"%s\" successfully removed from project \"%s\"."), $userToRemove->getUsername(), $project->getName()));
+        $this->prepareAlert(sprintf(i18n("User \"%s\" successfully removed from project \"%s\"."), $userToRemove->getUsername(), $project->getName()), "alert-success", "bi-check-circle");
 
         $this->view->redirect(self::PROJECTS_CONTROLLER_NAME, self::PROJECTS_DETAIL_ACTION, "id=" . $projectId);
+    }
+
+    private function prepareAlert($message, $type = "alert-info", $icon = "bi-info-circle") {
+        $this->view->setFlash(i18n($message));
+        $this->view->setVariable("flash-type", $type, true);
+        $this->view->setVariable("flash-icon", $icon, true);
     }
 
 }
