@@ -1,5 +1,5 @@
 <?php 
-//file: /app/rest/ProjectsRest.php
+//file: /app/api/ProjectsRest.php
 
 //Required files
 require_once(__DIR__."/../Model/Entity/Project.php");
@@ -222,17 +222,129 @@ class ProjectRest extends BaseRest {
     /**
      * GET '/api/projects/{id}/members'
      */
-    public function getMembers() {}
+    public function getMembers($projectIdentifier) {
+        try {
+            // check auth
+            $currentUser = parent::authenticateUser();
+
+            // Validate project identifier
+            if ($projectIdentifier === null || !is_numeric($projectIdentifier)) $this->badRequest('Invalid project identifier.', 400);
+
+            // Check if current user is member of the project (Independent of project existence)
+            if (!$this->projectMapper->isUserMember($currentUser->getUsername(), $projectIdentifier)) $this->forbidden('You are not member of this project');
+
+            // Get project members
+            $members = $this->projectMapper->getProjectMembers($projectIdentifier);
+
+            // Return response
+            $this->ok(["members" => $members], "Project members retrieved successfully.");
+
+        } catch (Exception $e) {
+            $this->serverError("Could not retrieve project members ", $e);
+        }
+    }
 
     /**
      * POST '/api/projects/{id}/members'
      */
-    public function addMembers() {}
+    public function addMembers($projectIdentifier, $membersData) {
+        try {
+            // Check auth
+            $currentUser = parent::authenticateUser();
+
+            // Validate project identifier
+            if ($projectIdentifier === null || !is_numeric($projectIdentifier)) $this->badRequest('Invalid project identifier.', 400);
+
+            // Check data presence
+            $this->checkDataPresence($membersData);
+
+            // Find the Project 
+            $requestedProject = $this->projectMapper->findById($projectIdentifier);
+
+            // Check if project was found
+            if ($requestedProject === null) $this->notFound('Project not found');
+
+            // Check if current user is member of the project
+            if (!$this->projectMapper->isUserMember($currentUser->getUsername(), $projectIdentifier)) $this->forbidden('You are not member of this project');
+
+            // Validate members
+            $invalidMembers = [];
+            $addedMembers = [];
+
+            foreach($membersData->members as $memberUsername) {
+                // If exists username add it to project, else add to invalid list
+                if (($user = $this->userMapper->getUser($memberUsername)) !== null) {
+                    // Add member to project
+                    if ($this->projectMapper->addMember($memberUsername, $projectIdentifier)) {
+                        $addedMembers[] = $memberUsername;
+                    }
+                
+                } else {
+                    $invalidMembers[] = $memberUsername;
+                }
+            }
+
+            // If any invalid members, return bad request listing them
+            if (count($invalidMembers) > 0) $this->badRequest("The following members are invalid: ".implode(", ", $invalidMembers));
+
+            // Return response
+            $this->ok(["addedMembers" => $addedMembers], "Project members added successfully.");    
+
+        } catch (Exception $e) {
+            $this->serverError("Could not add project members ", $e);
+        }
+    }
 
     /**
      * DELETE '/api/projects/{id}/members'
      */
-    public function removeMembers() {}
+    public function removeMembers($projectIdentifier, $membersData) {
+        try {
+            // Check auth
+            $currentUser = parent::authenticateUser();
+
+            // Validate project identifier
+            if ($projectIdentifier === null || !is_numeric($projectIdentifier)) $this->badRequest('Invalid project identifier.', 400);
+
+            // Check data presence
+            $this->checkDataPresence($membersData);
+
+            // Find the Project 
+            $requestedProject = $this->projectMapper->findById($projectIdentifier);
+
+            // Check if project was found
+            if ($requestedProject === null) $this->notFound('Project not found');
+
+            // Check if current user is member of the project
+            if (!$this->projectMapper->isUserMember($currentUser->getUsername(), $projectIdentifier)) $this->forbidden('You are not member of this project');
+
+            // Validate members
+            $invalidMembers = [];
+            $removedMembers = [];
+
+            foreach($membersData->members as $memberUsername) {
+                // If exists username remove it from project, else add to invalid list
+                if (($user = $this->userMapper->getUser($memberUsername)) !== null) {
+                    // Remove member from project
+                    if ($this->projectMapper->removeMember($memberUsername, $projectIdentifier)) {
+                        $removedMembers[] = $memberUsername;
+                    }
+                
+                } else {
+                    $invalidMembers[] = $memberUsername;
+                }
+            }
+
+            // If any invalid members, return bad request listing them
+            if (count($invalidMembers) > 0) $this->badRequest("The following members are invalid: ".implode(", ", $invalidMembers));
+
+            // Return response
+            $this->ok(["removedMembers" => $removedMembers], "Project members removed successfully.");    
+
+        } catch (Exception $e) {
+            $this->serverError("Could not remove project members ", $e);
+        }
+    }
 
     /**
      * GET '/api/projects/{id}/tasks' (Move to task rest ?)
@@ -279,10 +391,10 @@ class ProjectRest extends BaseRest {
     /**
      * Format task list response
      */
-    private function formatTaskListResponse($taskList) {
+    private function formatTaskListResponse($tasks) {
         $response = [];
 
-        foreach($taskList as $task) {
+        foreach($tasks as $task) {
             $response[] = $this->formatTaskResponse($task);
         }
 
@@ -323,8 +435,8 @@ URIDispatcher::getInstance()->map("GET", "/projects", array($projectRest, "index
                             ->map("PUT", "/projects/$1", array($projectRest, "update"))
                             ->map("DELETE", "/projects/$1", array($projectRest, "delete"))
 
-                            ->map("", "", array($projectRest, "getMembers"))
-                            ->map("", "", array($projectRest, "addMembers"))
-                            ->map("", "", array($projectRest, "removeMembers"))
+                            ->map("GET", "/projects/$1/members", array($projectRest, "getMembers"))
+                            ->map("POST", "/projects/$1/members", array($projectRest, "addMembers"))
+                            ->map("DELETE", "/projects/$1/members", array($projectRest, "removeMembers"))
                             ->map("", "", array($projectRest, "getTasks")) // Move to task rest ?
 ?>

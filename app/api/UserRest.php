@@ -1,5 +1,5 @@
 <?php
-//file: /app/rest/UserRest.php
+//file: /app/api/UserRest.php
 
 // Required files
 require_once(__DIR__."/../Model/Entity/User.php");
