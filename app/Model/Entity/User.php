@@ -2,6 +2,7 @@
 // file: /app/Model/Entity/User.php
 
 require_once(__DIR__.'/../../core/ValidationException.php');
+require_once(__DIR__.'/../../core/I18n.php');
 
 /**
  * User entity class
@@ -102,13 +103,13 @@ class User {
         $errors = array();
 
         // Username validation
-        $errors["username"] = $this->usernameValidation();
+        $errors["username"] = $this->validateUsername($this->username);
 
         // Email validation
-        $errors["email"] = $this->emailValidation();
+        $errors["email"] = $this->validateEmail($this->email);
 
         // Password validation
-        $errors["password"] = $this->passwordValidation();
+        $errors["password"] = $this->validatePassword($this->password);
 
         // Filter the errors array to keep only non-empty error messages and check if there are any errors
         if (!empty(array_filter($errors))) {
@@ -118,7 +119,8 @@ class User {
     }
 
     /**
-     * Validates the username of the user
+     * DEPRECATED
+     *  Validates the username of the user
      * 
      * @return string An error message if validation fails, empty string otherwise
      */
@@ -151,8 +153,40 @@ class User {
         return "";
     }
 
+    public static function validateUsername($username) {
+        $errors = [];
+        $baseError = i18n("Username");
+
+        // Required check
+        if (empty($username)) {
+            return $baseError . " " . i18n(self::ERROR_REQUIRED);
+        }
+
+        // Min length check
+        if (strlen($username) < self::MIN_USERNAME_LENGTH) {
+            return $baseError . " " . sprintf(i18n(self::ERROR_TOO_SHORT), self::MIN_USERNAME_LENGTH);
+        }
+
+        // Max length check 
+        if (strlen($username) > self::MAX_USERNAME_LENGTH) {
+            return $baseError . " " . sprintf(i18n(self::ERROR_TOO_LONG), self::MAX_USERNAME_LENGTH);
+        }
+
+        // Format check
+        if (!preg_match(self::USERNAME_PATTERN, $username)) {
+            return $baseError . " " . i18n(self::ERROR_INVALID_FORMAT) . " " . i18n("Can only contain letters, numbers, and underscores (no spaces).");
+        }
+
+        // Additional username checks can be added here
+
+        // If all checks pass, return true
+        return true;
+
+    }
+
     /**
-     * Validates the email of the user
+     * DEPRECATED
+     *  Validates the email of the user
      * 
      * @return string An error message if validation fails, empty string otherwise
      */
@@ -180,6 +214,30 @@ class User {
         return "";
     }
 
+    public static function validateEmail($email) {
+        $baseError = "Email ";
+
+        // Required check
+        if (empty($email)) {
+            return $baseError . self::ERROR_REQUIRED;
+        }
+
+        // Max length check
+        if (strlen($email) > self::MAX_EMAIL_LENGTH) {
+            return $baseError . sprintf(self::ERROR_TOO_LONG, self::MAX_EMAIL_LENGTH);
+        }
+
+        // Format check
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return $baseError . self::ERROR_INVALID_FORMAT;
+        }
+
+        // Additional email checks can be added here
+
+        // If all checks pass,
+        return true;
+    }
+    
     /**
      * Validates the password of the user
      * 
@@ -207,6 +265,30 @@ class User {
 
         // If all checks pass, return empty string
         return "";
+    }
+
+    public static function validatePassword($password) {
+        $baseError = "Password ";
+
+        // Required check
+        if (empty($password)) {
+            return $baseError . self::ERROR_REQUIRED;
+        }
+
+        // Min length check
+        if (strlen($password) < self::MIN_PASSWORD_LENGTH) {
+            return $baseError . sprintf(self::ERROR_TOO_SHORT, self::MIN_PASSWORD_LENGTH);
+        }
+
+        // Max length check
+        if (strlen($password) > self::MAX_PASSWORD_LENGTH) {
+            return $baseError . sprintf(self::ERROR_TOO_LONG, self::MAX_PASSWORD_LENGTH);
+        }
+
+        // Additional password strength checks can be added here
+
+        // If all checks pass, return true
+        return true;
     }
 
 }

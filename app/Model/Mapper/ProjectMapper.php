@@ -27,6 +27,8 @@ class ProjectMapper {
     /**
      * Saves a Project entity to the database
      * 
+     * @param Project $project The Project entity to save
+     * @return Project|bool The saved Project entity or true/false for update
      */
     public function save($project) {
         if ($project->getId() === null) {

@@ -37,6 +37,11 @@ class UserMapper {
         $stmt->execute(array($user->getUsername(), $user->getEmail(), $user->getPassword()));
     }
 
+    public function update(User $oldUser, User $newUser) {
+        $stmt = $this->db->prepare("UPDATE users SET username = ?, email = ?, password = ? WHERE username = ?");
+        $stmt->execute(array($newUser->getUsername(), $newUser->getEmail(), $newUser->getPassword(), $oldUser->getUsername()));
+    }
+
     /**
      * Checks if a username or email already exists in the database
      * 
@@ -51,17 +56,23 @@ class UserMapper {
     }
 
     /**
-     * Validates if the provided user identifier and password match a user in the database
+     * Validates user credentials and returns the username if authentication succeds.
      * 
-     * @param string $userIdentifier The username or email of the user
+     * Check if the provided identifier (username or email) and password match 
+     * a user in the database.
+     * 
+     * @param string $userIdentifier The username or email 
      * @param string $password The password of the user
-     * @return bool True if the credentials are valid, false otherwise
+     * @return string|false The authenticated username on success,
+     * false on failure
      */
     public function isValidUser($userIdentifier, $password) {
-        $stmt = $this->db->prepare("SELECT COUNT(*) FROM users WHERE (username = ? OR email = ?) AND password = ?");
+        $stmt = $this->db->prepare("SELECT username FROM users WHERE (username = ? OR email = ?) AND password = ?");
         $stmt->execute(array($userIdentifier, $userIdentifier, $password));
 
-        return ($stmt->fetchColumn() > 0);
+        $username = $stmt->fetchColumn(); // fetchColumn ya que es un solo valor
+
+        return ($username) ? $username : false ;
     }
 
     /**

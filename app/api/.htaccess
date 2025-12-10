@@ -1,0 +1,13 @@
+RewriteEngine On
+
+# This file allows to configure the access to the API REST config
+
+# Change RewriteBase according to rest location
+# Indicate the route from root directory to rest folder 
+
+# In this project, route to rest folder '/TaskGroup/app/api' then:
+RewriteBase /TaskGroup/app/api
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ index.php [QSA,L]
