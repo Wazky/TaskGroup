@@ -75,7 +75,7 @@ $flashIcon = $view->getVariable("flash-icon");
                             <li><a class="dropdown-item text-light" href="<?= "index.php?controller=users&amp;action=detail&amp;id=" . urlencode($currentUser) ?>">
                                 <i class="bi bi-person me-2"></i><?= $currentUser ?>
                             </a></li>
-                            <li><a class="dropdown-item text-light" href="<?= BASE_URL ?>/settings">
+                            <li><a class="dropdown-item text-light" href="#">
                                 <i class="bi bi-gear me-2"></i>Configuración
                             </a></li>
                             <li><hr class="dropdown-divider"></li>
@@ -103,11 +103,9 @@ $flashIcon = $view->getVariable("flash-icon");
                         <a href="<?= "index.php?controller=projects&amp;action=list" ?>" class="nav-link py-3">
                             <i class="bi bi-folder me-2"></i>Mis Proyectos
                         </a>
-                        <a href="<?= "index.php?controller=tasks&amp;action=index" ?>" class="nav-link py-3">
-                            <i class="bi bi-check-circle me-2"></i>Tareas
-                        </a>
+
                         
-                        <hr class="my-2">
+                        <hr class="my-2 text-white">
                         
                         <a href="<?= "index.php?controller=projects&amp;action=create" ?>" class="nav-link py-3">
                             <i class="bi bi-plus-circle me-2"></i>Nuevo Proyecto

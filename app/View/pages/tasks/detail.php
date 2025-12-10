@@ -129,7 +129,7 @@ $view->setVariable("main-content-header", $task->getTitle()." - ".strtoupper(i18
 <?php $view->moveToFragment("actions-header-main"); ?>
     <!-- Action Buttons for Task Detail Page -->
     <div class="d-flex gap-2">        
-        <?php if($currentUser === $task->getAssignedUsername() || $isProjectOwner): ?>
+        <?php if(($currentUser === $task->getAssignedUsername()) || $isProjectOwner): ?>
             <!-- Edit Task Button -->
             <a href="index.php?controller=tasks&amp;action=edit&amp;id=<?= $task->getId() ?>" class="btn btn-lg btn-light fw-bold">
                 <i class="bi bi-pencil-fill me-1"></i>
