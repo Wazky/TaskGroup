@@ -44,29 +44,30 @@ $flashMessage = $view->getVariable("flash_message");
                 <?= $view->getFragment("logo") ?>
             </div>
             <!-- Title and Subtitle -->
-            <h1 class="auth-title"><?= $view->getVariable("auth-title") ?></h1>
-            <p class="auth-subtitle"><?= i18n($view->getVariable("auth-subtitle")) ?></p>
+            <h1 class="auth-title"><?= $view->getVariable("auth-title", i18n("Authentication")) ?></h1>
+            <p class="auth-subtitle"><?= $view->getVariable("auth-subtitle", i18n("Welcome to TaskGroup")) ?></p>
+
         </div>
 
     <dialog class="">
         <p>AAAAAA</p>
     </dialog>
 
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-<div class="modal-dialog" role="document">
-<div class="modal-content">
-    <div class="modal-header">
-    <h5 class="modal-title" id="exampleModalLabel"><?= is_null($flashMessage) ? "" : $flashMessage ?></h5>
-    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button>
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel"><?= is_null($flashMessage) ? "" : $flashMessage ?></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="modal-body">
-    ...
-    </div>
-</div>
-</div>
-</div>
 
         <!-- Main Content -->
         <main>

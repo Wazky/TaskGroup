@@ -1,0 +1,45 @@
+{
+    "auth": {
+        
+        "login": {
+            "header": {
+                "title": "Login",
+                "subtitle": "Collaborative task manager"
+            },
+            "form": {
+                "usernameLabel": "Username or Email",
+                "usernamePlaceholder": "Enter your alias or email",
+                "passwordLabel": "Password",
+                "passwordPlaceholder": "Enter your password",
+                "submit": "Login"
+            },
+            "footer": {
+                "noAccount": "Don't have an account?",
+                "registerHere": "Register here"
+            }
+        },
+
+        "register": {
+            "header": {
+                "title": "Create Account",
+                "subtitle": "Join TaskGroup and start collaborating"
+            },
+            "form": {
+                "usernameLabel": "Username",
+                "usernamePlaceholder": "Choose your alias",
+                "emailLabel": "Email",
+                "emailPlaceholder": "Enter your email",
+                "passwordLabel": "Password",
+                "passwordPlaceholder": "Enter your password",
+                "confirmPasswordLabel": "Confirm Password",
+                "confirmPasswordPlaceholder": "Confirm your password",
+                "notMatchError": "Passwords do not match.",
+                "submit": "Create Account"
+            },
+            "footer":{
+                "haveAccount": "Already have an account?",
+                "loginHere": "Login here"
+            }
+        }
+    }
+}

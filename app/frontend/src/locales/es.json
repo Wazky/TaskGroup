@@ -1,0 +1,45 @@
+{
+    "auth": {
+        
+        "login": {
+            "header": {
+                "title": "Iniciar Sesión",
+                "subtitle": "Gestor colaborativo de tareas"
+            },
+            "form": {
+                "usernameLabel": "Nombre de usuario o correo electrónico",
+                "usernamePlaceholder": "Introduce tu alias o correo electrónico",
+                "passwordLabel": "Contraseña",
+                "passwordPlaceholder": "Introduce tu contraseña",
+                "submit": "Entrar"
+            },
+            "footer": {
+                "noAccount": "¿No tienes cuenta?",
+                "registerHere": "Regístrate aquí"
+            }
+        },
+        
+        "register": {
+            "header": {
+                "title": "Crear Cuenta",
+                "subtitle": "Únete a TaskGroup y comienza a colaborar"
+            },
+            "form": {
+                "usernameLabel": "Nombre de usuario",
+                "usernamePlaceholder": "Elige tu alias",
+                "emailLabel": "Correo Electrónico",
+                "emailPlaceholder": "Introduce tu correo electrónico",
+                "passwordLabel": "Contraseña",
+                "passwordPlaceholder": "Introduce tu contraseña",
+                "confirmPasswordLabel": "Confirmar Contraseña",
+                "confirmPasswordPlaceholder": "Confirma tu contraseña",
+                "notMatchError": "Las contraseñas no coinciden.",
+                "submit": "Crear Cuenta"
+            },
+            "footer": {
+                "haveAccount": "¿Ya tienes cuenta?",
+                "loginHere": "Inicia sesión aquí"
+            }
+        }
+    }
+}
