@@ -8,7 +8,8 @@
 
 export const ROUTES = {
     HOME: '/react/TaskGroup',
-    LOGIN: '/react/TaskGroup/login',
+    LOGIN: '/TaskGroup/login',
     REGISTER: '/react/TaskGroup/register',
+    DASHBOARD: '/react/TaskGroup/dashboard',
     // Add more routes as needed
 };

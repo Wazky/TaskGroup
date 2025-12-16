@@ -11,7 +11,8 @@
                 "usernamePlaceholder": "Introduce tu alias o correo electrónico",
                 "passwordLabel": "Contraseña",
                 "passwordPlaceholder": "Introduce tu contraseña",
-                "submit": "Entrar"
+                "submit": "Entrar",
+                "submitting": "Iniciando sesión..."
             },
             "footer": {
                 "noAccount": "¿No tienes cuenta?",
@@ -34,7 +35,8 @@
                 "confirmPasswordLabel": "Confirmar Contraseña",
                 "confirmPasswordPlaceholder": "Confirma tu contraseña",
                 "notMatchError": "Las contraseñas no coinciden.",
-                "submit": "Crear Cuenta"
+                "submit": "Crear Cuenta",
+                "submitting": "Creando..."
             },
             "footer": {
                 "haveAccount": "¿Ya tienes cuenta?",

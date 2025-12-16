@@ -57,7 +57,7 @@ class AuthRest extends BaseRest {
     }
 
     /**
-     * POST '/api/auth/login' (Change to GET ?)
+     * POST '/api/auth/login'
      */
     public function login() {
         try {
