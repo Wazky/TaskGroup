@@ -9,15 +9,16 @@ import LoginForm from '../../components/ui/auth/LoginForm'; // Import the LoginF
 
 export default function LoginPage() {
     const navigate = useNavigate();
+
+    // Handle successful login
     const handleLoginSuccess = () => {
-        console.log("Login successful!");
-        
-        navigate(ROUTES.DASHBOARD); // Redirect to dashboard or another page after successful login
+        // Redirect to dashboard or another page after successful login
+        navigate(ROUTES.DASHBOARD); 
     }
 
     return (
         <AuthLayout authType="login">
-            <LoginForm onLogingSuccess={handleLoginSuccess} />
+            <LoginForm onLoginSuccess={handleLoginSuccess} />
         </AuthLayout>
     );
 }

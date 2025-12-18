@@ -20,9 +20,6 @@ const AuthLayout =  ({ children, authType } ) => { // Accept children components
                     {/* Header Text Component */}
                     <AuthHeader type={authType} />
                 </div>
-        
-                {/* Flash Message Component */}
-                <FlashMessage message="Your message here" type="info" />
 
                 {/* Main Content Area */}
                 <main>

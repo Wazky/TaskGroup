@@ -7,7 +7,7 @@ export default function AuthLogo() {
                 src={logoIcon}
                 alt="TaskGroup Logo"
                 className="logo-img"
-                style={{ width: 'max-width', height: '300px' }}
+                style={{ width: 'max-width', height: '200px' }}
             ></img>
             <span className="logo-text">
                 <span className="text-tg-primary fs-1 fw-bold">TASK</span>

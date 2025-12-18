@@ -21,6 +21,9 @@ function App() {
         <Route path={ROUTES.HOME} element={<h1>Home</h1>} />
         <Route path={ROUTES.LOGIN} element={<LoginPage />} />
         <Route path={ROUTES.REGISTER} element={<RegisterPage />} />
+        
+        <Route path={ROUTES.DASHBOARD} element={<h1>Dashboard</h1>} />
+        
       </Routes>
   );
 }

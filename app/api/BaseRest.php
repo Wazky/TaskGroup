@@ -151,7 +151,7 @@ class BaseRest {
      * 401 Unauthorized
      */
     protected function  unauthorized($message = 'Unauthorized') {        
-        header($_SERVER['WWW-Authenticate: Basic realm="Rest API of TaskGroup"']);
+        //header($_SERVER['WWW-Authenticate: Basic realm="Rest API of TaskGroup"']);
         $this->sendErrorResponse($message, [], 401);
     }
 

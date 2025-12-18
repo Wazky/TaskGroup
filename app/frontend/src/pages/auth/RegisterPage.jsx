@@ -1,19 +1,22 @@
 //file: app/frontend/src/pages/auth/RegisterPage.jsx
 
 
+import { useNavigate } from 'react-router-dom';
+
 import AuthLayout from '../../components/layout/AuthLayout'; // Import the AuthLayout component
 import RegisterForm from '../../components/ui/auth/RegisterForm'; // Import the RegisterForm component
+import { ROUTES } from '../../constants/routes';
 
 export default function RegisterPage() {
+    const navigate = useNavigate();
 
-    function handleRegister(event) {
-        event.preventDefault();
-        // Handle registration logic here
+    const handleRegisterSuccess = () => {
+        navigate(ROUTES.DASHBOARD);
     }
 
     return (
         <AuthLayout authType="register">
-            <RegisterForm />
+            <RegisterForm onRegisterSuccess={handleRegisterSuccess} />
         </AuthLayout>
     );
 

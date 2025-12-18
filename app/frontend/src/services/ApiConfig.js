@@ -1,9 +1,18 @@
 //file: app/frontend/src/services/ApiConfig.js
 
 import $ from 'jquery';
+import { ROUTES } from '../constants/routes.js';
+import { useNavigate } from 'react-router-dom';
 
 const BACKEND_SERVER_URL = 'http://localhost/TaskGroup/app';  // Base backend server URL
-export const API_BASE_URL = `${BACKEND_SERVER_URL}/api`;    // Base API URL
+
+//export const API_BASE_URL = `${BACKEND_SERVER_URL}/api`;    // Base API URL
+
+// En desarrollo, usa rutas relativas
+export const API_BASE_URL = import.meta.env.DEV 
+  ? '/api'  // Usará el proxy de Vite
+  : 'http://localhost/TaskGroup/app/api';  // En producción
+
 
 // Set up jQuery AJAX defaults
 $.ajaxSetup({
@@ -21,8 +30,8 @@ $.ajaxSetup({
             localStorage.removeItem('user');
 
             // Redirect to login page
-            if (window.location.pathname !== '/login') {
-                window.location.href = '/login';
+            if (window.location.pathname !== ROUTES.LOGIN) {
+                window.location.href = ROUTES.LOGIN;
             }
         } 
 

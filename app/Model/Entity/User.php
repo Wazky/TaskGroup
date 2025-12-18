@@ -103,13 +103,16 @@ class User {
         $errors = array();
 
         // Username validation
-        $errors["username"] = $this->validateUsername($this->username);
+        $usernameValidation = $this->validateUsername($this->username);
+        $errors["username"] = ($usernameValidation === true) ? "" : $usernameValidation;
 
         // Email validation
-        $errors["email"] = $this->validateEmail($this->email);
+        $emailValidation = $this->validateEmail($this->email);
+        $errors["email"] = ($emailValidation === true) ? "" : $emailValidation;
 
         // Password validation
-        $errors["password"] = $this->validatePassword($this->password);
+        $passwordValidation = $this->validatePassword($this->password);
+        $errors["password"] = ($passwordValidation === true) ? "" : $passwordValidation;
 
         // Filter the errors array to keep only non-empty error messages and check if there are any errors
         if (!empty(array_filter($errors))) {
@@ -195,17 +198,17 @@ class User {
 
         // Required check
         if (empty($this->email)) {
-            return $baseError . self::ERROR_REQUIRED;
+            return $baseError . i18n(self::ERROR_REQUIRED);
         }
 
         // Max length check
         if (strlen($this->email) > self::MAX_EMAIL_LENGTH) {
-            return $baseError . sprintf(self::ERROR_TOO_LONG, self::MAX_EMAIL_LENGTH);
+            return $baseError . sprintf(i18n(self::ERROR_TOO_LONG), self::MAX_EMAIL_LENGTH);
         }
 
         // Format check
         if (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
-            return $baseError . self::ERROR_INVALID_FORMAT;
+            return $baseError . i18n(self::ERROR_INVALID_FORMAT);
         }
 
         // Additional email checks can be added here
@@ -219,17 +222,17 @@ class User {
 
         // Required check
         if (empty($email)) {
-            return $baseError . self::ERROR_REQUIRED;
+            return $baseError . i18n(self::ERROR_REQUIRED);
         }
 
         // Max length check
         if (strlen($email) > self::MAX_EMAIL_LENGTH) {
-            return $baseError . sprintf(self::ERROR_TOO_LONG, self::MAX_EMAIL_LENGTH);
+            return $baseError . sprintf(i18n(self::ERROR_TOO_LONG), self::MAX_EMAIL_LENGTH);
         }
 
         // Format check
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            return $baseError . self::ERROR_INVALID_FORMAT;
+            return $baseError . i18n(self::ERROR_INVALID_FORMAT);
         }
 
         // Additional email checks can be added here
@@ -248,17 +251,17 @@ class User {
 
         // Required check
         if (empty($this->password)) {
-            return $baseError . self::ERROR_REQUIRED;
+            return $baseError . i18n(self::ERROR_REQUIRED);
         }
 
         // Min length check
         if (strlen($this->password) < self::MIN_PASSWORD_LENGTH) {
-            return $baseError . sprintf(self::ERROR_TOO_SHORT, self::MIN_PASSWORD_LENGTH);
+            return $baseError . sprintf(i18n(self::ERROR_TOO_SHORT), self::MIN_PASSWORD_LENGTH);
         }
 
         // Max length check
         if (strlen($this->password) > self::MAX_PASSWORD_LENGTH) {
-            return $baseError . sprintf(self::ERROR_TOO_LONG, self::MAX_PASSWORD_LENGTH);
+            return $baseError . sprintf(i18n(self::ERROR_TOO_LONG), self::MAX_PASSWORD_LENGTH);
         }
 
         // Additional password strength checks can be added here
@@ -272,17 +275,17 @@ class User {
 
         // Required check
         if (empty($password)) {
-            return $baseError . self::ERROR_REQUIRED;
+            return $baseError . i18n(self::ERROR_REQUIRED);
         }
 
         // Min length check
         if (strlen($password) < self::MIN_PASSWORD_LENGTH) {
-            return $baseError . sprintf(self::ERROR_TOO_SHORT, self::MIN_PASSWORD_LENGTH);
+            return $baseError . sprintf(i18n(self::ERROR_TOO_SHORT), self::MIN_PASSWORD_LENGTH);
         }
 
         // Max length check
         if (strlen($password) > self::MAX_PASSWORD_LENGTH) {
-            return $baseError . sprintf(self::ERROR_TOO_LONG, self::MAX_PASSWORD_LENGTH);
+            return $baseError . sprintf(i18n(self::ERROR_TOO_LONG), self::MAX_PASSWORD_LENGTH);
         }
 
         // Additional password strength checks can be added here

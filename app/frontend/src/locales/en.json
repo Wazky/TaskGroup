@@ -12,7 +12,15 @@
                 "passwordLabel": "Password",
                 "passwordPlaceholder": "Enter your password",
                 "submit": "Login",
-                "submitting": "Logging in..."
+                "submitting": "Logging in...",
+                "formErrors": {
+                    "usernameRequired": "Username or Email is required.",
+                    "passwordRequired": "Password is required.",
+                    "passwordMinLength": "Password must be at least 6 characters.",
+                    "validationError": "Please correct the errors in the form.",
+                    "loginFailed": "Login failed. Please check your credentials and try again."
+                },
+                "successMessage": "Login successful!"
             },
             "footer": {
                 "noAccount": "Don't have an account?",
@@ -36,7 +44,30 @@
                 "confirmPasswordPlaceholder": "Confirm your password",
                 "notMatchError": "Passwords do not match.",
                 "submit": "Create Account",
-                "submitting": "Creating..."
+                "submitting": "Creating...",
+                "formErrors": {
+                    "registrationFailed": "Account creation failed. Please try again.",
+                    "usernameRequired": "Username is required.",
+                    "usernameMinLength": "Username must be at least 3 characters.",
+                    "emailRequired": "Email is required.",
+                    "emailInvalid": "Email is not valid.",
+                    "passwordRequired": "Password is required.",
+                    "passwordMinLength": "Password must be at least 6 characters.",
+                    "passwordsDoNotMatch": "Passwords do not match."
+                }            
+            },
+            "success": {
+                "title": "¡Registro Exitoso!",
+                "accountCreated": "Cuenta creada correctamente",
+                "preparingLogin": "Preparando inicio de sesión automático...",
+                "loggingIn": "Iniciando sesión...",
+                "redirecting": "Serás redirigido automáticamente",
+                "registrationComplete": "Registro Completado",
+                "loginFailed": "Registro exitoso pero el inicio de sesión automático falló",
+                "pleaseLoginManually": "Por favor, inicia sesión manualmente con tus credenciales",
+                "retryLogin": "Reintentar inicio de sesión",
+                "backToForm": "Volver al formulario",
+                "welcome": "¡Bienvenido a la aplicación!"
             },
             "footer":{
                 "haveAccount": "Already have an account?",

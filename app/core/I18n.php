@@ -20,7 +20,7 @@ class I18n {
 
 	private $messages;
 
-	const DEFAULT_LANGUAGE="es";
+	const DEFAULT_LANGUAGE="en";
 	const CURRENT_LANGUAGE_SESSION_VAR="__currentlang__";
 
 	public function __construct(){

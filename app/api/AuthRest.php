@@ -32,11 +32,11 @@ class AuthRest extends BaseRest {
 
             // Check username is not already in use
             if ($this->userMapper->userIdentifierExists($user->getUsername())) {
-                $this->badRequest('Username already exists', 400);
+                $this->badRequest('Username already exists', ["username" => "Username already exists"]);
             }
             // Check email is not already in user
             if ($this->userMapper->userIdentifierExists($user->getEmail())) {
-                $this->badRequest('Email already exists', 400);
+                $this->badRequest('Email already exists', ["email" => "Email already exists"]);
             }
 
             // Save user in the DB
@@ -49,7 +49,14 @@ class AuthRest extends BaseRest {
             $this->created($response, "User registered successfully.");
 
         } catch (ValidationException $e) {
-            $this->badRequest('Invalid user data', 400);
+            // Remove empty errors
+            $errorArray = array_filter($e->getErrors());
+            $errorsStructured = [];
+            foreach ($errorArray as $field => $error) {
+                $errorsStructured[$field] = $error;
+            }        
+
+            $this->badRequest('Invalid user data', $errorsStructured);
 
         } catch (Exception $e) {
             $this->serverError('Registration failed', $e);
